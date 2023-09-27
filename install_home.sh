@@ -13,4 +13,6 @@ ln -s ./home/.nvidia-settings-rc ~/.nvidia-settings-rc
 
 # .config dirs/files
 ln -s ./home/config/nvim ~/.config/nvim
-
+ln -s ./home/config/qtile ~/.config/qtile
+ln -s ./home/config/picom.conf ~/.config/picom.conf
+ln -s ./home/config/awesome ~/.config/awesome
