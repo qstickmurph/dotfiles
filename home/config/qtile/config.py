@@ -31,16 +31,22 @@ from libqtile.lazy import lazy
 
 mod = "mod4"
 terminal = 'kitty'
+browser = 'qutebrowser'
 
 keys = [
-    # Rofi 
+    # Power Control
+    Key([mod, "control"], "q", lazy.shutdown(), desc="Spawn a command using a prompt widget"),
+    Key([mod, "control"], "r", lazy.restart(), desc="Spawn a command using a prompt widget"),
+    Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
+
+    # Rofi
     Key([mod], "r", lazy.spawn('rofi -show run -show-icons'), desc="Spawn a command using a prompt widget"),
     Key([mod], "space", lazy.spawn('rofi -show drun -show-icons'), desc="Move window focus to other window"),
     Key([mod, "shift"], "Return", lazy.spawn('rofi -show drun -show-icons'), desc="Move window focus to other window"),
 
     # Launch Apps
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod], "b", lazy.spawn('qutebrowser'), desc="Launch terminal"),
+    Key([mod], "b", lazy.spawn(browser), desc="Launch terminal"),
 
     # Backlight
     Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight -inc 5"), desc="Launch terminal"),
@@ -68,8 +74,6 @@ keys = [
     # Qtile Control
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
 
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -222,14 +226,14 @@ screens = [
                     line_width=1,
                     border_width=1,
                 ),
-                widget.TextBox("HDD:"),
-                widget.HDDBusyGraph(
-                    border_color=colors['fg'],
-                    graph_color=colors['aqua'],
-                    fill_color=colors['yellow'],
-                    line_width=1,
-                    border_width=1,
-                ),
+                #widget.TextBox("HDD:"),
+                #widget.HDDBusyGraph(
+                #    border_color=colors['fg'],
+                #    graph_color=colors['aqua'],
+                #    fill_color=colors['yellow'],
+                #    line_width=1,
+                #    border_width=1,
+                #),
                 widget.Sep(),
                 widget.Spacer(
                     length=bar.STRETCH,
