@@ -11,4 +11,6 @@ ln -s ./home/.xinit ~/.xinit
 # Nvidia Settings
 ln -s ./home/.nvidia-settings-rc ~/.nvidia-settings-rc
 
-# 
+# .config dirs/files
+ln -s ./home/config/nvim ~/.config/nvim
+
