@@ -36,6 +36,7 @@ browser = 'qutebrowser'
 keys = [
     # Power Control
     Key([mod, "control"], "q", lazy.shutdown(), desc="Spawn a command using a prompt widget"),
+    Key([mod, "shift"], "q", lazy.spawn('lockscreen'), desc="Spawn a command using a prompt widget"),
     Key([mod, "control"], "r", lazy.restart(), desc="Spawn a command using a prompt widget"),
     Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
 
@@ -99,7 +100,7 @@ keys = [
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
     Key(
-        [mod, "shift"],
+        [mod, "control"],
         "Return",
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
@@ -242,6 +243,10 @@ screens = [
                 widget.Wlan(
                     format='WiFi: \'{essid}\' - {percent:2.0%}',
                     interface='wlp0s20f3',
+                ),
+                widget.Net(
+                    format=" D:{down} U:{up}",
+                    update_interval=5,
                 ),
                 widget.Sep(),
                 widget.Backlight(
