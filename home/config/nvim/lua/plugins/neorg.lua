@@ -104,10 +104,8 @@ return {
             callback = function(ev)
                 vim.opt_local.wrap = true;
                 vim.opt_local.linebreak = true;
-                vim.opt.colorcolumn = "0";
-                vim.opt.foldlevel = 1;
-                vim.opt.foldmethod = "expr";
-                vim.opt.foldexpr = "nvim_treesitter#foldexpr()";
+                vim.opt.colorcolumn = "144";
+                vim.opt.foldlevel = 0;
 
                 vim.opt.tabstop = 1;
                 vim.opt.softtabstop = 1;
@@ -121,24 +119,5 @@ return {
                 vim.opt.breakindent = true;
             end
         })
-        --[[
-        local initial_pull = vim.api.nvim_create_augroup('initial_pull', { clear = true })
-        vim.api.nvim_create_autocmd( {"BufReadPre"}, {
-            pattern="*.norg",
-            callback = function(ev)
-                vim.cmd("Git pull")
-                vim.api.nvim_clear_autocmds({group = inital_pull})
-            end,
-            group=inital_pull
-        })
-        vim.api.nvim_create_autocmd( {"BufWritePost"}, {
-            pattern="*.norg",
-            callback = function(ev)
-                vim.fn.system("git add --all")
-                vim.fn.system("git commit -m 'Auto-Update by Neorg'")
-                vim.fn.system("git push")
-            end
-        })
-        --]]
     end
 }

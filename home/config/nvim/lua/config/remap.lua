@@ -23,4 +23,5 @@ vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>cprev<CR>zz")
 
-vim.keymap.set("n", "<Leader>b", ":ls<CR>:b<Space>")
+vim.keymap.set("n", "<Leader>b", ":bp<CR>")
+vim.keymap.set("n", "<Leader>f", ":bn<CR>")
