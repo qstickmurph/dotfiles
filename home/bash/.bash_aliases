@@ -4,6 +4,10 @@ alias fixscreen="xrandr --output eDP-1 --rotate normal"
 # Attempts to open a file
 alias open=xdg-open
 
+if [ $TERM = "xterm-kitty" ]; then
+    alias ssh='kitten ssh'
+fi
+
 # ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
