@@ -24,7 +24,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from libqtile import bar, layout, widget
+from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 # from libqtile.utils import guess_terminal
@@ -107,7 +107,7 @@ keys = [
     ),
 ]
 
-groups = [Group(i) for i in "123456789"]
+groups = [Group(i) for i in "1234567890"]
 
 for i in groups:
     keys.extend(
@@ -197,7 +197,8 @@ screens = [
                     inactive=colors['gray'],
                     this_current_screen_border=colors['fg'],
                     this_screen_border=colors['fg'],
-                    hide_unused=True,
+                    hide_unused=False,
+                    visible_groups=['1', '2', '3', '8', '9', '0'],
                     margin=3,
                     borderwidth=2,
                 ),
