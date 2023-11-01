@@ -70,6 +70,7 @@ return {
                             -- Navigation commands
                             keybinds.remap("norg", "n", "<Leader>nI", "<cmd>Neorg index<CR>")
                             keybinds.remap("norg", "n", "<Leader>ni", "<cmd>e index.norg<CR>")
+                            keybinds.remap("norg", "n", "<c-cr>", "<cmd>vert split<CR><cmd>wincmd l<CR><cmd>Neorg keybind norg core.esupports.hop.hop-link<CR>")
 
                             -- Stylize Word
                             keybinds.remap("norg", "n", "<Leader>nsi", "ciw//<esc>P")
@@ -94,6 +95,7 @@ return {
 
                             -- Journal
                             keybinds.remap("norg", "n", "<Leader>nj", "<cmd>Neorg journal today<CR>")
+
                         end
                     }
                 }
@@ -105,7 +107,7 @@ return {
                 vim.opt_local.wrap = true;
                 vim.opt_local.linebreak = true;
                 vim.opt.colorcolumn = "144";
-                vim.opt.foldlevel = 0;
+                vim.opt.foldlevel = 3;
 
                 vim.opt.tabstop = 1;
                 vim.opt.softtabstop = 1;
