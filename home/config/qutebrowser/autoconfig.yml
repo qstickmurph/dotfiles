@@ -8,7 +8,13 @@ config_version: 2
 settings:
   colors.webpage.preferred_color_scheme:
     global: dark
+  content.blocking.method:
+    global: both
   content.notifications.enabled:
     https://calendar.google.com: true
+    https://pomofocus.io: true
   content.register_protocol_handler:
     https://calendar.google.com?cid=%25s: true
+  qt.args:
+    global:
+    - disable-accelerated-2d-canvas

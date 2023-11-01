@@ -33,6 +33,13 @@ mod = "mod4"
 terminal = 'kitty'
 browser = 'qutebrowser'
 
+@lazy.function
+def float_to_front(qtile):
+    for group in qtile.groups:
+        for window in group.windows:
+            if window.floating:
+                window.cmd_bring_to_front()
+
 keys = [
     # Power Control
     Key([mod, "control"], "q", lazy.shutdown(), desc="Spawn a command using a prompt widget"),
@@ -57,8 +64,8 @@ keys = [
 
     # Volume
     Key([], "XF86AudioMute", lazy.spawn("pactl -- set-sink-mute @DEFAULT_SINK@ toggle"), desc="Launch terminal"),
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer sset 'Master' 5%+"), desc="Launch terminal"),
-    Key([], "XF86AudioLowerVolume", lazy.spawn("amixer sset 'Master' 5%-"), desc="Launch terminal"),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer -D pulse sset 'Master' 5%+"), desc="Launch terminal"),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("amixer -D pulse sset 'Master' 5%-"), desc="Launch terminal"),
 
     # Media Controls
     Key([], "XF86AudioPlay", lazy.spawn("playerctl --player=%any play-pause")), # Play Pause
@@ -71,6 +78,7 @@ keys = [
     # Window Control
     Key([mod], "f", lazy.window.toggle_fullscreen()),
     Key([mod, "shift"], "f", lazy.window.toggle_floating()),
+    Key([mod, "control"], "f", float_to_front),
 
     # Qtile Control
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
@@ -81,6 +89,8 @@ keys = [
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([mod], "tab", lazy.group.next_window(), desc="[Layout] Focus next window"),
+
 
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
@@ -257,7 +267,8 @@ screens = [
                 #),
                 widget.Sep(),
                 widget.Volume(
-                    fmt='Vol: {}'
+                    fmt='Vol: {}',
+                    device='pulse',
                 ),
                 #widget.Sep(),
                 #widget.Battery(
@@ -308,6 +319,9 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
+        Match(wm_class="zoom"),  # zoom
+        Match(wm_class="1password"),  # 1password
+        Match(wm_class="blueman-manager"),  # Bluemann
     ]
 )
 auto_fullscreen = True

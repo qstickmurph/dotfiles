@@ -1,5 +1,7 @@
 config.load_autoconfig()
 
+c.qt.args=["disable-accelerated-2d-canvas"]
+
 # gruvbox dark hard qutebrowser theme by Florian Bruhin <me@the-compiler.org>
 #
 # Originally based on:
