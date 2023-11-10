@@ -4,4 +4,4 @@ if [ "$EUID" -ne 0 ]
 fi
 
 # Modprobe
-cp etc/modprobe.d/snd.conf /etc/modprobe.d/snd.conf
+# cp etc/modprobe.d/snd.conf /etc/modprobe.d/snd.conf
