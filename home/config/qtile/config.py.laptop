@@ -71,7 +71,6 @@ keys = [
     # Window Control
     Key([mod], "f", lazy.window.toggle_fullscreen()),
     Key([mod, "shift"], "f", lazy.window.toggle_floating()),
-    Key([mod, "control"], "f", float_to_front),
 
     # Qtile Control
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
