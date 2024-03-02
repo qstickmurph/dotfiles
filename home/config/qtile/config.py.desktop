@@ -248,6 +248,12 @@ screens = [
                 ),
                 widget.Sep(),
                 widget.Spacer(
+                    length=20,
+                ),
+                widget.WindowName(
+
+                ),
+                widget.Spacer(
                     length=bar.STRETCH,
                 ),
                 widget.Sep(),
