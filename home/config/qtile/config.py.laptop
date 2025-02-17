@@ -57,8 +57,8 @@ keys = [
 
     # Volume
     Key([], "XF86AudioMute", lazy.spawn("pactl -- set-sink-mute @DEFAULT_SINK@ toggle"), desc="Launch terminal"),
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer sset 'Master' 5%+"), desc="Launch terminal"),
-    Key([], "XF86AudioLowerVolume", lazy.spawn("amixer sset 'Master' 5%-"), desc="Launch terminal"),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl -- set-sink-volume @DEFAULT_SINK@ +5%"), desc="Launch terminal"),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("pactl -- set-sink-volume @DEFAULT_SINK@ -5%"), desc="Launch terminal"),
 
     # Media Controls
     Key([], "XF86AudioPlay", lazy.spawn("playerctl --player=%any play-pause")), # Play Pause
@@ -247,7 +247,7 @@ screens = [
                     interface='wlp0s20f3',
                 ),
                 widget.Net(
-                    format=" D:{down} U:{up}",
+                    format=" D:{down:6.2f}{down_suffix}  U:{up:6.2f}{up_suffix}",
                     update_interval=5,
                 ),
                 widget.Sep(),
