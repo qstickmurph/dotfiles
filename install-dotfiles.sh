@@ -23,10 +23,10 @@ baseFolders['config']=".config"
 
 for baseFolder in "${!baseFolders[@]}"; do
     cd $baseFolder;
-    for file in $(find . -maxdepth 1 -printf "%f\n"); do
+    for file in $(find . -mindepth 1 -maxdepth 1 -printf "%f\n"); do
         targetFile="$PWD/$file"
         destinationFile="$HOME/${baseFolders[$baseFolder]}/$file"
-        ln -s ${FORCE:+-f} $targetFile $destinationFile
+        ln -Ts ${FORCE:+-f} $targetFile $destinationFile
         if [[ "$VERBOSE" = true ]]; then
             echo "Linked $destinationFile to $targetFile"
         fi
