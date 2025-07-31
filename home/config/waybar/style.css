@@ -44,8 +44,12 @@ tooltip {
     color: #ebdbb2;
 }
 
+#workspaces button.visible {
+    font-weight: bold;
+    color: #458588;
+}
+
 #workspaces button.active {
-    text-decoration: underline;
     font-weight: bold;
     color: #cc241d;
 }
