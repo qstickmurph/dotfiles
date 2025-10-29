@@ -30,12 +30,6 @@ return {
                         default_workspace = "personal"
                     }
                 },
-                ["core.completion"] = {
-                    config = {
-                        engine = "nvim-cmp",
-                        name = "[Neorg]",
-                    }
-                },
                 ["core.keybinds"] = {
                     config = {
                         hook = function(keybinds)
