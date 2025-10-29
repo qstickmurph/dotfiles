@@ -31,5 +31,9 @@ vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "80"
 
-vim.opt.conceallevel=3
 vim.opt.foldlevel=10
+
+vim.diagnostic.config({
+  update_in_insert=true,
+  virtual_text=true,
+})

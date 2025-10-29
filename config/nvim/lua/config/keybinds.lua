@@ -29,7 +29,7 @@ return {
   { -- Project/Files Group
     "<Leader>p",
     group="Project/Files",
-    mode="n", 
+    mode="n",
 
     { "<Leader>pp", function() Snacks.picker.projects() end, desc="Projects" },
     { "<Leader>pd", function() Snacks.explorer.open() end, desc="File Explorer" },
@@ -45,17 +45,21 @@ return {
     mode="n",
     cond = function()
       local handle = io.popen("git rev-parse --is-inside-work-tree 2> /dev/null")
+      if handle == nil then
+        return
+      end
       local result = handle:read("*a")
       handle:close()
       return result ~= ""
     end,
 
     { "<Leader>gg", "<cmd>Git<CR>", desc="Open Fugitive" },
+    { "<Leader>gl", "<cmd>GitBlameToggle<CR>", desc="Toggle Git Blame" },
 
     { -- Pickers
       "<Leader>gp",
       group="Git Pickers",
-    
+
       { "<leader>gpb", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
       { "<leader>gpl", function() Snacks.picker.git_log() end, desc = "Git Log" },
       { "<leader>gpL", function() Snacks.picker.git_log_line() end, desc = "Git Log Line" },
@@ -69,7 +73,7 @@ return {
       "<Leader>ga",
       group="Git Add",
 
-      { 
+      {
         "<Leader>ga",
         function()
           vim.ui.input({
@@ -82,11 +86,11 @@ return {
             end
           end)
         end,
-        desc="Git Add" 
+        desc="Git Add"
       },
-      { 
+      {
         "<Leader>gaa",
-        function() 
+        function()
           vim.cmd("Git add --all")
           vim.notify("Staged all files", vim.log.levels.INFO, { title="Git" })
         end,
@@ -111,7 +115,7 @@ return {
             end
           end)
         end,
-        desc="Git Branch Switch" 
+        desc="Git Branch Switch"
       },
       {
         "<Leader>gbc",
@@ -122,6 +126,9 @@ return {
           }, function(branch_name)
             if branch_name then
               local handle = io.popen("git branch --show-current 2> /dev/null")
+              if handle == nil then
+                return
+              end
               local current_branch = handle:read("*a")
               handle:close()
               vim.ui.input({
@@ -130,17 +137,20 @@ return {
                 -- completion = "git branch?",
               }, function(parent_name)
                 vim.cmd("Git branch " .. branch_name .. " " .. parent_name)
-                vim.notify("Created new branch" .. input_text, vim.log.levels.INFO, { title="Git" })
+                vim.notify("Created new branch" .. branch_name, vim.log.levels.INFO, { title="Git" })
               end)
             end
           end)
         end,
-        desc="Git Branch Create" 
+        desc="Git Branch Create"
       },
       {
         "<Leader>gbr",
         function()
           local handle = io.popen("git branch --show-current 2> /dev/null")
+          if handle == nil then
+            return
+          end
           local current_branch = handle:read("*a")
           handle:close()
 
@@ -150,11 +160,11 @@ return {
           }, function(branch_name)
             if branch_name then
                 vim.cmd("Git branch -m" .. branch_name)
-                vim.notify("Renamed branch from " .. current_branch .. " to " .. input_text, vim.log.levels.INFO, { title="Git" })
+                vim.notify("Renamed branch from " .. current_branch .. " to " .. branch_name, vim.log.levels.INFO, { title="Git" })
             end
           end)
         end,
-        desc="Git Branch Rename" 
+        desc="Git Branch Rename"
       },
     },
 
@@ -174,7 +184,7 @@ return {
             end
           end)
         end,
-        desc="Git Commit" 
+        desc="Git Commit"
       }
     },
 
@@ -186,7 +196,7 @@ return {
     "<Leader>n",
     group="Notes",
 
-    { 
+    {
       "<Leader>nw",
       function()
         local workspace_names = require("neorg").modules.get_module("core.dirman").get_workspace_names()
@@ -203,7 +213,7 @@ return {
 
     { -- Neorg only commands
       cond=function() return vim.bo.filetype == "norg" end,
-      
+
       { "<Leader>nr", "<cmd>Neorg index<CR>", desc="Neorg Root" },
       { "<Leader>ni", "<cmd>e index.norg<CR>", desc="Neorg index" },
       { "<Leader>nj", "<cmd>Neorg Journal<CR>", desc="Neorg Today's Journal" },
@@ -245,10 +255,36 @@ return {
   },
 
   {
+    "<Leader>d",
+    group="Diagnostics",
+
+    { "<Leader>dd", function() vim.diagnostic.open_float() end, desc="Open Diagnostic" },
+    { "<Leader>dg", proxy="[D", desc="First Diagnostic" },
+    { "<Leader>dG", proxy="]D", desc="Last Diagnostic" },
+    { "<Leader>dn", function() vim.diagnostic.get_next() end, desc="Next Diagnostic" },
+    { "<Leader>dp", function() vim.diagnostic.get_prev() end, desc="Prev Diagnostic" },
+    { "<Leader>dh", function() vim.diagnostic.hide() end, desc="Hide Diagnostics" },
+    { "<Leader>ds", function() vim.diagnostic.show() end, desc="Show Diagnostics" },
+  },
+
+  {
     "<Leader>l",
-    group="Lsp"
+    group="Lsp",
 
-
+    { "<Leader>la", function() vim.lsp.buf.code_action() end, desc="Get Code Actions" },
+    { "<Leader>ld", function() vim.lsp.buf.definition() end, desc="Go To Definition" },
+    { "<Leader>lD", function() vim.lsp.buf.declaration() end, desc="Go To Declaration" },
+    { "<Leader>li", function() vim.lsp.buf.implementation() end, desc="Go To Implementation" },
+    { "<Leader>lr", function() vim.lsp.buf.references() end, desc="Go To References" },
+    { "<Leader>lt", function() vim.lsp.buf.type_definition() end, desc="Go To Type Definition" },
+    { "<Leader>lh", function() vim.lsp.buf.typehierarchy("supertypes") end, desc="Show Type Parents" },
+    { "<Leader>lH", function() vim.lsp.buf.typehierarchy("subtypes") end, desc="Show Type Children" },
+    { "<Leader>ls", function() vim.lsp.buf.signature_help() end, desc="Signature Info" },
+    { "<Leader>lR", function() vim.lsp.buf.rename() end, desc="Rename All References" },
+    { "<Leader>lF", function() vim.lsp.buf.format() end, desc="Format using LSP" },
+    { "<Leader>lk", function() vim.lsp.buf.hover() end, desc="Hover Info" },
+    { "<Leader>lw", function() vim.lsp.buf.workspace_diagnostics() end, desc="Show Workspace Diagnostics" },
+    { "<Leader>lw", function() vim.lsp.buf.workspace_diagnostics() end, desc="Show Workspace Diagnostics" },
   },
   {
     "<Leader>L",
@@ -290,9 +326,9 @@ return {
     group="Nvim Config",
     mode="n",
 
-    { 
-      "<Leader>cd",
-      function() 
+    {
+      "<Leader>cdd",
+      function()
         vim.ui.input({
           prompt = "cd",
           completion = "dir",
@@ -302,21 +338,21 @@ return {
           end
         end)
       end,
-      desc="Change Working Directory" 
+      desc="Change Working Directory"
     },
-    { 
+    {
       "<Leader>cdh",
-      function() 
+      function()
         vim.cmd("cd %:h")
       end,
-      desc="Change Working Directory Here" 
+      desc="Change Working Directory Here"
     },
-    { 
+    {
       "<Leader>cd..",
-      function() 
+      function()
         vim.cmd("cd ..")
       end,
-      desc="Change Working Directory" 
+      desc="Change Working Directory"
     },
     { "<Leader>cf", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc="Find Config Files" },
     { "<Leader>cc", function() Snacks.picker.commands() end, desc="Commands" },

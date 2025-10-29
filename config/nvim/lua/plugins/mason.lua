@@ -1,6 +1,9 @@
 return {
     "williamboman/mason.nvim",
     dependencies = {
+       "mason-org/mason-lspconfig.nvim",
+       "rshkarin/mason-nvim-lint",
+       "jay-babu/mason-nvim-dap.nvim",
       {
         "WhoIsSethDaniel/mason-tool-installer.nvim",
         opts = {
@@ -18,7 +21,7 @@ return {
 
             -- Docker
             'docker-compose-language-service',
-            'dockerfile-language-server',
+            'docker-language-server',
 
             -- Yaml
             'yaml-language-server',
