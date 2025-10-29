@@ -12,6 +12,7 @@ return {
       "vim",
       "vimdoc",
       "norg",
+      "norg-meta",
       "query",
       "python",
       "html",

@@ -80,5 +80,6 @@ The following prefixes are defined for keybinds:
 - <Leader>n - Neorg
 - <Leader>l - Lsp
 - <Leader>L - Linter
-- <Leader>f - Formatter
-- <Leader>d - Debugger
+- <Leader>F - Formatter
+- <Leader>D - Debugger
+- <Leader>f - Find
