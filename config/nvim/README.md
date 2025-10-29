@@ -15,17 +15,15 @@ All lazy.nvim plugins are defined in lua/plugins
 - [x] gruvbox: Overall nvim theme
 
 ### File Navigation & Management
-- [x] neo-tree.nvim: 
-- [x] telescope: 
+- [x] Snacks tree: 
 - [x] spectre.nvim
 - [x] bookmarks.nvim: 
-- [x] oil.nvim:
 
 ### Syntax/Treesitter
 - [x] treesitter: 
 - [x] nvim-treesitter-context: 
-- [ ] nvim-treesitter-textobjects: 
-- [ ] nvim-ts-autotag: 
+- [x] nvim-treesitter-textobjects: 
+- [x] nvim-ts-autotag: 
 - [x] mini.ai: 
 
 ### Auto-completion
@@ -51,33 +49,26 @@ All lazy.nvim plugins are defined in lua/plugins
 - [x] git-blame.nvim: 
 
 ### Code Editing
-- [ ] nvim-autopairs: 
-- [ ] comment.nvim: 
-- [ ] nvim-surround: 
-- [ ] undotree:
+- [x] nvim-autopairs: 
+- [x] comment.nvim: 
+- [x] nvim-surround: 
+- [x] undotree:
 - [x] refactoring.nvim: 
-- [ ] vim-repeat
-- [ ] flash.nvim: 
-- [ ] todo-comments.nvim: 
-- [ ] vim-sleuth: 
+- [x] flash.nvim: 
+- [x] todo-comments.nvim: 
 
 ### Notes
 - [x] neorg:
 - [x] render-markdown.nvim: 
-- [ ] vim-table-mode: 
 
 ### UI Enhancements
-- [ ] lualine.nvim: 
-- [ ] indent-blankline.nvim: 
-- [ ] which-key.nvim: Keybinds displayer
-- [ ] trouble.nvim: 
-- [ ] dressing.nvim:
-- [ ] nvim-notify: 
-- [ ] aerial.nvim:
-- [ ] zen-mode.nvim:
-- [ ] nvim-ufo:
-- [ ] smartcolumn.nvim:
-- [ ] nvim-colorizer:
+- [x] lualine.nvim: 
+- [x] indent-blankline.nvim: 
+- [x] which-key.nvim: Keybinds displayer
+- [x] trouble.nvim: 
+- [x] snacks.nvim: 
+- [x] aerial.nvim:
+- [x] nvim-colorizer:
 
 ## Keybinds
 The leader key used in nearly all my custom nvim keybinds is <SPACE>

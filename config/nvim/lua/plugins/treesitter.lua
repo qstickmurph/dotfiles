@@ -1,5 +1,8 @@
 return {
   "nvim-treesitter/nvim-treesitter",
+  dependencies = {
+    "windwp/nvim-ts-autotag",
+  },
   branch = "master",
   lazy = false,
   build = ":TSUpdate",
@@ -28,6 +31,7 @@ return {
     sync_install = false,
     highlight = { enable = true },
     indent = { enable = false },
+    autotag = { enable = true },
   },
   config = function()
     vim.opt.foldmethod = "expr"
