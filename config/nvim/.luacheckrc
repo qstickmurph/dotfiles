@@ -1,0 +1,12 @@
+std = {
+  exclude_files = {
+    ".luacheckrc"
+  },
+  globals={
+    "Snacks",
+    "vim",
+    "require",
+    "package",
+    "io",
+  }
+}

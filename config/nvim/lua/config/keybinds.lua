@@ -19,13 +19,19 @@ return {
 
   { -- Root level keybinds
     { "<Leader>?", function() require("which-key").show({ global = false }) end, desc="Buffer Local Keymaps" },
+    { "<C-w><Space>", function() require("which-key").show({ loop = true }) end, desc="Buffer Local Keymaps" },
     { "<Leader>:", function() Snacks.picker.command_history() end, desc="Command History" },
     { "<Leader>N", function() Snacks.picker.notifications() end, desc="Notifications" },
     { "<Leader>u", function() Snacks.picker.undo() end, desc="Undo History" },
     { "<Leader>z", function() Snacks.zen() end, desc="Zen Toggle" },
     { "<Leader>Z", function() Snacks.zen.zoom() end, desc="Zen Zoom" },
+    { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+    { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash TS" },
+    { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+    { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "TS Search" },
+    { "<C-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    { "<Leader>S", function() require("spectre").toggle() end, desc="Toggle Spectre" },
   },
-
   { -- Project/Files Group
     "<Leader>p",
     group="Project/Files",
@@ -38,7 +44,6 @@ return {
     { "<Leader>ps", function() Snacks.picker.grep() end, desc="Grep" },
     { "<Leader>pr", function() Snacks.picker.recent({ filter = { cwd=true }}) end, desc="Recent Files" },
   },
-
   { -- Git Group
     "<Leader>g",
     group="Git",
@@ -160,7 +165,14 @@ return {
           }, function(branch_name)
             if branch_name then
                 vim.cmd("Git branch -m" .. branch_name)
-                vim.notify("Renamed branch from " .. current_branch .. " to " .. branch_name, vim.log.levels.INFO, { title="Git" })
+                vim.notify(
+                  "Renamed branch from "
+                    .. current_branch
+                    .. " to "
+                    .. branch_name,
+                  vim.log.levels.INFO,
+                  { title="Git" }
+                )
             end
           end)
         end,
@@ -247,14 +259,17 @@ return {
       { "<Leader>nn", "<Plug>(core.dirman.new.note)", desc="New Note" },
       { "<Leader>nc", "<Plug>(core.looking_glass.magnify_code_block)", desc="Magnify Code Block" },
 
-      { "<c-cr>", "<cmd>vert split<CR><cmd>wincmd l<CR><cmd>Neorg keybind norg core.esupports.hop.hop-link<CR>", desc="Navigate in new pane" },
+      {
+        "<c-cr>",
+        "<cmd>vert split<CR><cmd>wincmd l<CR><cmd>Neorg keybind norg core.esupports.hop.hop-link<CR>",
+        desc="Navigate in new pane"
+      },
       { "<Leader>nsl", "ciw{:<esc>pi:}[]<esc>P", desc="which_key_ignore" },
       { "j", "gj", desc="which_key_ignore" },
       { "k", "gk", desc="which_key_ignore" },
     }
   },
-
-  {
+  { -- Diagnostics Group
     "<Leader>d",
     group="Diagnostics",
 
@@ -265,12 +280,18 @@ return {
     { "<Leader>dp", function() vim.diagnostic.get_prev() end, desc="Prev Diagnostic" },
     { "<Leader>dh", function() vim.diagnostic.hide() end, desc="Hide Diagnostics" },
     { "<Leader>ds", function() vim.diagnostic.show() end, desc="Show Diagnostics" },
+    {
+      "<Leader>dl",
+      function() vim.cmd("Trouble diagnostics toggle filter.buf=0") end,
+      desc="Diagnostics List (Local Buffer)"
+    },
+    { "<Leader>dL", function() vim.cmd("Trouble diagnostics toggle") end, desc="Diagnostics List (Whole Project)" },
   },
-
-  {
+  { -- LSP Group
     "<Leader>l",
-    group="Lsp",
+    group="LSP",
 
+    { "<Leader>lS", function() vim.cmd("AerialToggle") end, desc="List Code Symbols" },
     { "<Leader>la", function() vim.lsp.buf.code_action() end, desc="Get Code Actions" },
     { "<Leader>ld", function() vim.lsp.buf.definition() end, desc="Go To Definition" },
     { "<Leader>lD", function() vim.lsp.buf.declaration() end, desc="Go To Declaration" },
@@ -286,32 +307,64 @@ return {
     { "<Leader>lw", function() vim.lsp.buf.workspace_diagnostics() end, desc="Show Workspace Diagnostics" },
     { "<Leader>lw", function() vim.lsp.buf.workspace_diagnostics() end, desc="Show Workspace Diagnostics" },
   },
-  {
+  { -- Linting Group
     "<Leader>L",
-    group="Linter"
+    group="Linter",
+    cond=function()
+      return package.loaded["lint"] ~= nil
+    end,
 
-
+    { "<Leader>LL", function() require("lint").try_lint() end, desc="Run Linters" },
   },
-  {
+  { -- Formatter Group
     "<Leader>F",
-    group="Formatter"
+    group="Formatter",
+    cond=function()
+      return package.loaded["conform"] ~= nil
+    end,
 
-
+    { "<Leader>FF", function() require("conform").format({ async=true }) end, desc="Run Formatter" },
   },
-  {
+  { -- Debugger Group
     "<Leader>D",
-    group="Debugger"
+    group="Debugger",
+    cond=function()
+      return package.loaded["dap"] ~= nil
+    end,
+
+    {
+      "<leader>DB",
+      function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end,
+      desc = "Breakpoint Condition"
+    },
+    { "<leader>Db", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
+    { "<leader>Dc", function() require("dap").continue() end, desc = "Run/Continue" },
+    { "<leader>Da", function() require("dap").continue({ before = get_args }) end, desc = "Run with Args" },
+    { "<leader>DC", function() require("dap").run_to_cursor() end, desc = "Run to Cursor" },
+    { "<leader>Dg", function() require("dap").goto_() end, desc = "Go to Line (No Execute)" },
+    { "<leader>Di", function() require("dap").step_into() end, desc = "Step Into" },
+    { "<leader>Dj", function() require("dap").down() end, desc = "Down" },
+    { "<leader>Dk", function() require("dap").up() end, desc = "Up" },
+    { "<leader>Dl", function() require("dap").run_last() end, desc = "Run Last" },
+    { "<leader>Do", function() require("dap").step_out() end, desc = "Step Out" },
+    { "<leader>DO", function() require("dap").step_over() end, desc = "Step Over" },
+    { "<leader>DP", function() require("dap").pause() end, desc = "Pause" },
+    { "<leader>Dr", function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
+    { "<leader>Ds", function() require("dap").session() end, desc = "Session" },
+    { "<leader>Dt", function() require("dap").terminate() end, desc = "Terminate" },
+    { "<leader>Dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
+    { "<leader>Du", function() require("dapui").toggle({ }) end, desc = "Dap UI" },
+    { "<leader>De", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "x"} },
+  },
+  { -- Refactoring Group
+    "<Leader>r",
+    group="Refactoring",
+    cond=function()
+      return package.loaded["refactoring"] ~= nil
+    end,
 
 
   },
-  {
-    "<Leader>f",
-    group="Find"
-
-
-  },
-
-
   { -- Window Group
     "<C-w>",
     group="Window",
@@ -320,7 +373,6 @@ return {
     { "<C-w>-", ":split<CR>", desc="Split Window Horiz"},
     { "<C-w>\\", ":vsplit<CR>", desc="Split Window Vert"},
   },
-
   { -- Nvim config
     "<Leader>c",
     group="Nvim Config",
@@ -360,7 +412,8 @@ return {
     { "<Leader>cD", function() Snacks.picker.diagnostics() end, desc="Diagnostics" },
     { "<Leader>ch", function() Snacks.picker.help() end, desc="Help Pages" },
     { "<Leader>ck", function() Snacks.picker.keymaps() end, desc="Keymaps" },
-    { "<Leader>cm", function() Snacks.picker.man() end, desc="Man Pages" },
+    { "<Leader>cM", function() Snacks.picker.man() end, desc="Man Pages" },
     { "<Leader>cl", "<cmd>Lazy<CR>", desc="Lazy.nvim" },
+    { "<Leader>cm", "<cmd>Mason<CR>", desc="Lazy.nvim" },
   },
 }

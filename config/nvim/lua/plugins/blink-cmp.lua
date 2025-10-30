@@ -1,6 +1,6 @@
 return {
   "saghen/blink.cmp",
-  dependencies = { 
+  dependencies = {
     "rafamadriz/friendly-snippets",
     {
       "L3MON4D3/LuaSnip",
@@ -9,12 +9,10 @@ return {
     },
   },
   version = '1.*',
-  ---@module 'blink.cmp'
-  ---@type blink.cmp.Config
   opts = {
     -- See :h blink-cmp-config-keymap for defining your own keymap
     keymap = {
-      preset = 'default' 
+      preset = 'default'
     },
     appearance = {
       nerd_font_variant = 'mono'

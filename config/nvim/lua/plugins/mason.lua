@@ -9,14 +9,19 @@ return {
         opts = {
           lazy = true,
           ensure_installed = {
+            -- Spellchecker
+            'cspell',
+
+            -- Lua and Vim
             'lua-language-server',
             'vim-language-server',
+            'luacheck',
             'stylua',
-            'shellcheck',
             'editorconfig-checker',
 
             -- Bash
             'bash-language-server',
+            'shellcheck',
             'bash-debug-adapter',
 
             -- Docker
@@ -35,6 +40,7 @@ return {
 
             -- HTML/CSS
             'stylelint',
+            'htmlhint',
 
             -- C#
             'roslyn',
