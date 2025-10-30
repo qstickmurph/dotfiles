@@ -2,6 +2,7 @@
   "diagnostics.globals": [
     "Snacks",
     "vim",
-    "package"
+    "package",
+    "get_args"
   ]
 }

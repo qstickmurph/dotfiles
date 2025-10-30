@@ -1,44 +1,37 @@
 return {
-  "saghen/blink.cmp",
-  dependencies = {
-    "rafamadriz/friendly-snippets",
-    {
-      "L3MON4D3/LuaSnip",
-      version = "v2.*",
-      build = "make install_jsregexp",
-    },
-  },
-  version = '1.*',
-  opts = {
-    -- See :h blink-cmp-config-keymap for defining your own keymap
-    keymap = {
-      preset = 'default'
-    },
-    appearance = {
-      nerd_font_variant = 'mono'
-    },
-    completion = { documentation = { auto_show = false } },
+	"saghen/blink.cmp",
+	dependencies = {
+		"rafamadriz/friendly-snippets",
+		"L3MON4D3/LuaSnip",
+	},
+	version = "1.*",
+	opts = {
+		-- See :h blink-cmp-config-keymap for defining your own keymap
+		keymap = {
+			preset = "default",
+		},
+		appearance = {
+			nerd_font_variant = "mono",
+		},
+		completion = { documentation = { auto_show = false } },
+		sources = {
+			default = { "lsp", "path", "snippets", "buffer" },
+			-- per_filetype = { 'dadbod' },
+			providers = {
+				-- dadbod = { name = "dadbod", module = "vim_dadbod_completion.blink" },
+			},
+		},
 
-    -- Default list of enabled providers defined so that you can extend it
-    -- elsewhere in your config, without redefining it, due to `opts_extend`
-    sources = {
-      default = { 'lsp', 'path', 'snippets', 'buffer' },
-      -- per_filetype = { 'dadbod' },
-      providers = {
-        -- dadbod = { name = "dadbod", module = "vim_dadbod_completion.blink" },
-      },
-    },
+		snippets = {
+			preset = "luasnip",
+		},
 
-    snippets = {
-      preset = "luasnip",
-    },
-
-    -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
-    -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
-    -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
-    --
-    -- See the fuzzy documentation for more information
-    fuzzy = { implementation = "prefer_rust_with_warning" }
-  },
-  opts_extend = { "sources.default" }
+		-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
+		-- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
+		-- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
+		--
+		-- See the fuzzy documentation for more information
+		fuzzy = { implementation = "prefer_rust_with_warning" },
+	},
+	opts_extend = { "sources.default" },
 }
