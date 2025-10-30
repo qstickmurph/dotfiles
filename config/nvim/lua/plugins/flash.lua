@@ -3,7 +3,7 @@ return {
 	event = "VeryLazy",
 	opts = {
 		label = {
-			uppercase = false,
+			uppercase = true,
 			after = true,
 			before = true,
 		},
@@ -11,7 +11,7 @@ return {
 			char = {
 				jump_labels = true,
 				label = {
-					uppercase = false,
+					uppercase = true,
 					after = true,
 					before = true,
 				},

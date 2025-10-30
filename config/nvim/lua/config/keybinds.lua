@@ -53,6 +53,13 @@ return {
 			desc = "Undo History",
 		},
 		{
+			"<Leader>U",
+			function()
+				vim.cmd("UndotreeToggle")
+			end,
+			desc = "Undo Tree",
+		},
+		{
 			"<Leader>z",
 			function()
 				Snacks.zen()
@@ -79,6 +86,20 @@ return {
 				Snacks.scratch()
 			end,
 			desc = "Toggle Scratch Buffer",
+		},
+		{
+			"<leader>q",
+			function()
+				Snacks.bufdelete()
+			end,
+			desc = "Delete Buffer",
+		},
+		{
+			"<leader>Q",
+			function()
+				Snacks.bufdelete.all()
+			end,
+			desc = "Delete Buffer",
 		},
 	},
 	{ -- Flash Group
