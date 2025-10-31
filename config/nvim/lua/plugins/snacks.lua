@@ -21,8 +21,8 @@ return {
 		},
 		picker = {
 			enabled = true,
-			hidden = true,
-			ignored = true,
+			hidden = false,
+			ignored = false,
 			sources = {
 				explorer = {
 					win = {
