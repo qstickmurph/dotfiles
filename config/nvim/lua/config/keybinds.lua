@@ -13,8 +13,8 @@ return {
 		{ "<C-u>", "<C-u>zz", mode = "n" },
 
 		-- Copy to clipboard
-		{ "<leader>y", '"+y', mode = { "n", "v" }, desc = "which_key_ignore" },
-		{ "<leader>Y", '"+Y', mode = "n", desc = "which_key_ignore" },
+		{ "<Leader>y", '"+y', mode = { "n", "v" }, desc = "which_key_ignore" },
+		{ "<Leader>Y", '"+Y', mode = "n", desc = "which_key_ignore" },
 	},
 	{ -- Root level keybinds
 		{
@@ -81,23 +81,24 @@ return {
 			desc = "Toggle Spectre",
 		},
 		{
-			"<leader>.",
+			"<Leader>.",
 			function()
 				Snacks.scratch()
 			end,
 			desc = "Toggle Scratch Buffer",
 		},
 		{
-			"<leader>q",
+			"<Leader>q",
 			function()
 				Snacks.bufdelete()
 			end,
 			desc = "Delete Buffer",
 		},
 		{
-			"<leader>Q",
+			"<Leader>Q",
 			function()
 				Snacks.bufdelete.all()
+				Snacks.dashboard()
 			end,
 			desc = "Delete Buffer",
 		},
@@ -157,7 +158,7 @@ return {
 			desc = "Projects",
 		},
 		{
-			"<leader>pd",
+			"<Leader>pd",
 			function()
 				if Snacks.picker.get({ source = "explorer" })[1] == nil then
 					Snacks.picker.explorer()
@@ -168,6 +169,13 @@ return {
 				end
 			end,
 			desc = "File Explorer",
+		},
+		{
+			"<Leader>pv",
+			function()
+				Snacks.explorer.reveal({ buf = 0 })
+			end,
+			desc = "Show in File Explorer",
 		},
 		{
 			"<Leader>pf",
@@ -191,7 +199,7 @@ return {
 			desc = "Grep",
 		},
 		{
-			"<leader>p.",
+			"<Leader>p.",
 			function()
 				Snacks.scratch.select()
 			end,
@@ -248,49 +256,49 @@ return {
 			group = "Git Pickers",
 
 			{
-				"<leader>gpb",
+				"<Leader>gpb",
 				function()
 					Snacks.picker.git_branches()
 				end,
 				desc = "Git Branches",
 			},
 			{
-				"<leader>gpl",
+				"<Leader>gpl",
 				function()
 					Snacks.picker.git_log()
 				end,
 				desc = "Git Log",
 			},
 			{
-				"<leader>gpL",
+				"<Leader>gpL",
 				function()
 					Snacks.picker.git_log_line()
 				end,
 				desc = "Git Log Line",
 			},
 			{
-				"<leader>gps",
+				"<Leader>gps",
 				function()
 					Snacks.picker.git_status()
 				end,
 				desc = "Git Status",
 			},
 			{
-				"<leader>gpS",
+				"<Leader>gpS",
 				function()
 					Snacks.picker.git_stash()
 				end,
 				desc = "Git Stash",
 			},
 			{
-				"<leader>gpd",
+				"<Leader>gpd",
 				function()
 					Snacks.picker.git_diff()
 				end,
 				desc = "Git Diff (Hunks)",
 			},
 			{
-				"<leader>gpf",
+				"<Leader>gpf",
 				function()
 					Snacks.picker.git_log_file()
 				end,
@@ -431,64 +439,71 @@ return {
 		"<Leader>n",
 		group = "Notes",
 
+    {
+      "<Leader>nw",
+      "<cmd>Neorg index<CR>",
+      desc = "Neorg Workspace"
+    },
 		{
-			"<Leader>nw",
+			"<Leader>nW",
 			function()
 				local workspace_names = require("neorg").modules.get_module("core.dirman").get_workspace_names()
 				vim.ui.select(workspace_names, { prompt = "Select a Neorg workspace" }, function(workspace_name)
-					vim.cmd("Neorg workspace " .. workspace_name)
+          if workspace_name then
+            vim.cmd("Neorg workspace " .. workspace_name)
+          end
 				end)
 			end,
-			desc = "Neorg Workspace",
+			desc = "Choose Workspace",
 		},
 
-		{ -- Neorg only commands
-			cond = function()
-				return vim.bo.filetype == "norg"
-			end,
+		{ "<Leader>nr", proxy = "<Leader>nw", desc="which_key_ignore" },
+		{ "<Leader>ni", "<cmd>e index.norg<CR>", desc = "Neorg index" },
+		{
+      "<Leader>nT",
+      function ()
+				local current_workspace_path = require("neorg").modules.get_module("core.dirman").get_current_workspace()[2]
+        vim.cmd("e " .. current_workspace_path .. "/todo.norg")
+      end,
+      desc = "Neorg TODO List",
+    },
+		{ "<Leader>nj", "<cmd>Neorg journal today<CR>", desc = "Neorg Today's Journal" },
+		{ "<Leader>nJ", "<cmd>Neorg journal<CR>", desc = "Neorg Journal Selection" },
 
-			{ "<Leader>nr", "<cmd>Neorg index<CR>", desc = "Neorg Root" },
-			{ "<Leader>ni", "<cmd>e index.norg<CR>", desc = "Neorg index" },
-			{ "<Leader>nj", "<cmd>Neorg Journal<CR>", desc = "Neorg Today's Journal" },
+		{ -- Task Actions
+			"<Leader>nt",
+			group = "Task Actions",
 
-			{ -- Task Actions
-				"<Leader>nt",
-				group = "Task Actions",
-
-				{ "<Leader>ntd", "<Plug>(core.qol.todo_items.todo.task_done)", desc = "Task Done" },
-				{ "<Leader>ntu", "<Plug>(core.qol.todo_items.todo.task_undone)", desc = "Task Undone" },
-				{ "<Leader>ntp", "<Plug>(core.qol.todo_items.todo.task_pending)", desc = "Task Pending" },
-				{ "<Leader>nth", "<Plug>(core.qol.todo_items.todo.task_on_hold)", desc = "Task On Hold" },
-				{ "<Leader>ntc", "<Plug>(core.qol.todo_items.todo.task_cancelled)", desc = "Task Cancelled" },
-				{ "<Leader>ntr", "<Plug>(core.qol.todo_items.todo.task_recurring)", desc = "Task Recurring" },
-				{ "<Leader>nti", "<Plug>(core.qol.todo_items.todo.task_important)", desc = "Task Important" },
-				{ "<Leader>ntt", "<Plug>(core.qol.todo_items.todo.task_cycle)", desc = "Task Cycle" },
-			},
-
-			{ -- List Actions
-				"<Leader>nl",
-				group = "List Actions",
-
-				{ "<Leader>nlt", "<Plug>(core.pivot.toggle-list-type)", desc = "Toggle List Type" },
-				{ "<Leader>nli", "<Plug>(core.pivot.invert-list-type)", desc = "Invert List Type" },
-			},
-
-			{ "<Leader>j", "<Plug>(core.integrations.treesitter.next.heading)", desc = "Next Heading" },
-			{ "<Leader>k", "<Plug>(core.integrations.treesitter.previous.heading)", desc = "Previous Heading" },
-			{ "<Leader>nn", "<Plug>(core.integrations.treesitter.next.link)", desc = "Next Link" },
-			{ "<Leader>np", "<Plug>(core.integrations.treesitter.previous.link)", desc = "Previous Link" },
-			{ "<Leader>nn", "<Plug>(core.dirman.new.note)", desc = "New Note" },
-			{ "<Leader>nc", "<Plug>(core.looking_glass.magnify_code_block)", desc = "Magnify Code Block" },
-
-			{
-				"<c-cr>",
-				"<cmd>vert split<CR><cmd>wincmd l<CR><cmd>Neorg keybind norg core.esupports.hop.hop-link<CR>",
-				desc = "Navigate in new pane",
-			},
-			{ "<Leader>nsl", "ciw{:<esc>pi:}[]<esc>P", desc = "which_key_ignore" },
-			{ "j", "gj", desc = "which_key_ignore" },
-			{ "k", "gk", desc = "which_key_ignore" },
+			{ "<Leader>ntd", "<Plug>(core.qol.todo_items.todo.task_done)", desc = "Task Done" },
+			{ "<Leader>ntu", "<Plug>(core.qol.todo_items.todo.task_undone)", desc = "Task Undone" },
+			{ "<Leader>ntp", "<Plug>(core.qol.todo_items.todo.task_pending)", desc = "Task Pending" },
+			{ "<Leader>nth", "<Plug>(core.qol.todo_items.todo.task_on_hold)", desc = "Task On Hold" },
+			{ "<Leader>ntc", "<Plug>(core.qol.todo_items.todo.task_cancelled)", desc = "Task Cancelled" },
+			{ "<Leader>ntr", "<Plug>(core.qol.todo_items.todo.task_recurring)", desc = "Task Recurring" },
+			{ "<Leader>nti", "<Plug>(core.qol.todo_items.todo.task_important)", desc = "Task Important" },
+			{ "<Leader>ntt", "<Plug>(core.qol.todo_items.todo.task_cycle)", desc = "Task Cycle" },
 		},
+
+		{ -- List Actions
+			"<Leader>nl",
+			group = "List Actions",
+
+			{ "<Leader>nlt", "<Plug>(core.pivot.toggle-list-type)", desc = "Toggle List Type" },
+			{ "<Leader>nli", "<Plug>(core.pivot.invert-list-type)", desc = "Invert List Type" },
+		},
+
+		{ "<Leader>j", "<Plug>(core.integrations.treesitter.next.heading)", desc = "Next Heading" },
+		{ "<Leader>k", "<Plug>(core.integrations.treesitter.previous.heading)", desc = "Previous Heading" },
+		{ "<Leader>nn", "<Plug>(core.integrations.treesitter.next.link)", desc = "Next Link" },
+		{ "<Leader>np", "<Plug>(core.integrations.treesitter.previous.link)", desc = "Previous Link" },
+		{ "<Leader>nn", "<Plug>(core.dirman.new.note)", desc = "New Note" },
+		{ "<Leader>nc", "<Plug>(core.looking_glass.magnify_code_block)", desc = "Magnify Code Block" },
+		{
+			"<c-cr>",
+			"<cmd>vert split<CR><cmd>wincmd l<CR><cmd>Neorg keybind norg core.esupports.hop.hop-link<CR>",
+			desc = "Navigate in new pane",
+		},
+		{ "<Leader>nsl", "ciw{:<esc>pi:}[]<esc>P", desc = "which_key_ignore" },
 	},
 	{ -- Diagnostics Group
 		"<Leader>d",
@@ -694,133 +709,133 @@ return {
 		end,
 
 		{
-			"<leader>DB",
+			"<Leader>DB",
 			function()
 				require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
 			end,
 			desc = "Breakpoint Condition",
 		},
 		{
-			"<leader>Db",
+			"<Leader>Db",
 			function()
 				require("dap").toggle_breakpoint()
 			end,
 			desc = "Toggle Breakpoint",
 		},
 		{
-			"<leader>Dc",
+			"<Leader>Dc",
 			function()
 				require("dap").continue()
 			end,
 			desc = "Run/Continue",
 		},
 		{
-			"<leader>Da",
+			"<Leader>Da",
 			function()
 				require("dap").continue({ before = get_args })
 			end,
 			desc = "Run with Args",
 		},
 		{
-			"<leader>DC",
+			"<Leader>DC",
 			function()
 				require("dap").run_to_cursor()
 			end,
 			desc = "Run to Cursor",
 		},
 		{
-			"<leader>Dg",
+			"<Leader>Dg",
 			function()
 				require("dap").goto_()
 			end,
 			desc = "Go to Line (No Execute)",
 		},
 		{
-			"<leader>Di",
+			"<Leader>Di",
 			function()
 				require("dap").step_into()
 			end,
 			desc = "Step Into",
 		},
 		{
-			"<leader>Dj",
+			"<Leader>Dj",
 			function()
 				require("dap").down()
 			end,
 			desc = "Down",
 		},
 		{
-			"<leader>Dk",
+			"<Leader>Dk",
 			function()
 				require("dap").up()
 			end,
 			desc = "Up",
 		},
 		{
-			"<leader>Dl",
+			"<Leader>Dl",
 			function()
 				require("dap").run_last()
 			end,
 			desc = "Run Last",
 		},
 		{
-			"<leader>Do",
+			"<Leader>Do",
 			function()
 				require("dap").step_out()
 			end,
 			desc = "Step Out",
 		},
 		{
-			"<leader>DO",
+			"<Leader>DO",
 			function()
 				require("dap").step_over()
 			end,
 			desc = "Step Over",
 		},
 		{
-			"<leader>DP",
+			"<Leader>DP",
 			function()
 				require("dap").pause()
 			end,
 			desc = "Pause",
 		},
 		{
-			"<leader>Dr",
+			"<Leader>Dr",
 			function()
 				require("dap").repl.toggle()
 			end,
 			desc = "Toggle REPL",
 		},
 		{
-			"<leader>Ds",
+			"<Leader>Ds",
 			function()
 				require("dap").session()
 			end,
 			desc = "Session",
 		},
 		{
-			"<leader>Dt",
+			"<Leader>Dt",
 			function()
 				require("dap").terminate()
 			end,
 			desc = "Terminate",
 		},
 		{
-			"<leader>Dw",
+			"<Leader>Dw",
 			function()
 				require("dap.ui.widgets").hover()
 			end,
 			desc = "Widgets",
 		},
 		{
-			"<leader>Du",
+			"<Leader>Du",
 			function()
 				require("dapui").toggle({})
 			end,
 			desc = "Dap UI",
 		},
 		{
-			"<leader>De",
+			"<Leader>De",
 			function()
 				require("dapui").eval()
 			end,

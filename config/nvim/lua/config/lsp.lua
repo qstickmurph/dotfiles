@@ -1,4 +1,3 @@
-vim.lsp.enable("cspell_ls")
 vim.lsp.enable("lua_ls")
 vim.lsp.enable("vimls")
 vim.lsp.enable("bashls")

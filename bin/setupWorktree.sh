@@ -1,7 +1,6 @@
 #!/bin/bash
 
 PARENT_BRANCH="main"
-SHOULD_START_PROGRAM=false
 SHOULD_NOT_CHANGE_DIRECTORY=false
 VERBOSE=false
 
@@ -9,12 +8,11 @@ function printUsageString {
   echo "Usage: $0 [OPTIONS]"
   echo ""
   echo "Required options:"
-  echo "  --worktree-name NAME       Enter the name for the worktree"
-  echo "  --branch-name NAME         Enter the name for the git branch"
+  echo "  --worktree-name NAME           Enter the name for the worktree"
+  echo "  --branch-name NAME             Enter the name for the git branch"
   echo ""
   echo "Optional options:"
-  echo "  --parent-branch NAME       Enter the name of the parent branch (default: master)"
-  echo "  --start-program            Whether this should start the program in the new worktree"
+  echo "  --parent-branch NAME           Enter the name of the parent branch (default: master)"
   echo "  --should-not-change-directory  Whether this script should not remain in the worktree"
   echo "  -h, --help                     Show this help message"
 }
@@ -40,10 +38,6 @@ while true; do
     --parent-branch)
       PARENT_BRANCH="$2"
       shift 2
-      ;;
-    --start-program)
-      SHOULD_START_PROGRAM=true
-      shift
       ;;
     --should-not-change-directory)
       SHOULD_NOT_CHANGE_DIRECTORY=true
@@ -105,34 +99,8 @@ fi
 
 [ "$VERBOSE" = true ] && echo "Created git worktree '$WORKTREE_NAME'"
 
-ORIGINAL_DIR=$(pwd)
 
-cd "./$WORKTREE_NAME" || exit 1
-
-if ! pwsh ./scripts/powershell/buildAllLocal.ps1 &>/dev/null; then
-  echo "Error: Failed to build" >&2
-  exit 1
-else
-  [ "$VERBOSE" = true ] && echo "Successfully built local program"
-fi
-
-if ! npm ci --prefix ./web/Gui/ &>/dev/null; then
-  echo "Error: Failed to npm ci" >&2
-  exit 1
-else
-  [ "$VERBOSE" = true ] && echo "Successfully completed npm ci"
-fi
-
-if [ "$SHOULD_START_PROGRAM" = true ]; then
-  if ! pwsh ./scripts/powershell/startAllLocal.ps1 &>/dev/null; then
-    echo "Error: Failed to start program" >&2
-    exit 1
-  else
-    [ "$VERBOSE" = true ] && echo "Successfully started program"
-  fi
-fi
-
-if [ "$SHOULD_NOT_CHANGE_DIRECTORY" = true ]; then
-  cd "$ORIGINAL_DIR" || exit 1
-  [ "$VERBOSE" = true ] && echo "Returned to original directory"
+if [ "$SHOULD_NOT_CHANGE_DIRECTORY" = false ]; then
+  cd "./$WORKTREE_NAME" || exit 1
+  [ "$VERBOSE" = true ] && echo "Entered worktree directory"
 fi

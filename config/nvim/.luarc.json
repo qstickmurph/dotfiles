@@ -3,6 +3,10 @@
     "Snacks",
     "vim",
     "package",
-    "get_args"
+    "get_args",
+    "s",
+    "t",
+    "f",
+    "c"
   ]
 }

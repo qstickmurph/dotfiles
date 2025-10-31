@@ -8,5 +8,9 @@ std = {
     "require",
     "package",
     "io",
+    "s",
+    "t",
+    "f",
+    "c"
   }
 }
