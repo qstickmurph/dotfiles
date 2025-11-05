@@ -35,7 +35,7 @@ return {
             -- Javascript/Typescript
             'typescript-language-server',
             'angular-language-server',
-            'eslint_d',
+            'eslint-lsp',
             'prettierd',
 
             -- HTML/CSS
@@ -46,6 +46,7 @@ return {
             'roslyn',
             'rzls',
             'sonarlint-language-server',
+            'netcoredbg',
 
             -- Java
 

@@ -158,7 +158,7 @@ return {
 			desc = "Projects",
 		},
 		{
-			"<Leader>pd",
+			"<Leader>pD",
 			function()
 				if Snacks.picker.get({ source = "explorer" })[1] == nil then
 					Snacks.picker.explorer()
@@ -167,6 +167,18 @@ return {
 				elseif Snacks.picker.get({ source = "explorer" })[1]:is_focused() == false then
 					Snacks.picker.get({ source = "explorer" })[1]:focus()
 				end
+			end,
+			desc = "File Explorer Sidebar",
+		},
+		{
+			"<Leader>pd",
+			function()
+        Snacks.picker.explorer({
+           auto_close = true,
+           layout = {
+             preset="dropdown"
+           }
+        })
 			end,
 			desc = "File Explorer",
 		},

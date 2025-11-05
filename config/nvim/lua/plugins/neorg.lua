@@ -50,8 +50,6 @@ return {
 				vim.api.nvim_buf_set_lines(0, 0, 0, false, { "" })
 				vim.api.nvim_win_set_cursor(0, { 1, 0 })
 
-        vim.notify("This is working", vim.log.levels.INFO)
-
 				local ls = require("luasnip")
 				local snippets = ls.get_snippets("norg")
 				for _, snip in pairs(snippets) do

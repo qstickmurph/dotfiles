@@ -28,6 +28,7 @@ return {
               end)
             end,
           },
+          { icon = " ", key = "g", desc = "Git", action = "<cmd>Git<CR>" },
           { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
           { icon = " ", key = "s", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
           { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
