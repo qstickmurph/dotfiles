@@ -173,11 +173,16 @@ return {
 		{
 			"<Leader>pd",
 			function()
+        local cwd = vim.fn.expand("%:p:h")
+        if cwd == "" then
+          cwd = vim.fn.getcwd()
+        end
         Snacks.picker.explorer({
            auto_close = true,
            layout = {
              preset="dropdown"
-           }
+           },
+           cwd = cwd
         })
 			end,
 			desc = "File Explorer",
