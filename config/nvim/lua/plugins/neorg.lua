@@ -109,7 +109,7 @@ return {
       callback = function(ev)
         vim.api.nvim_buf_set_keymap(0, "n", "j", "gj", { noremap = true, silent = true })
         vim.api.nvim_buf_set_keymap(0, "n", "k", "gk", { noremap = true, silent = true })
-
+        
         vim.opt_local.conceallevel = 3
 
         vim.opt_local.wrap = true
@@ -134,6 +134,7 @@ return {
     vim.api.nvim_create_autocmd({ "BufReadPre" }, {
       desc = "Automatically pull before reading norg files",
       pattern = "*.norg",
+      once = true,
       callback = function()
         local currentBuffer = vim.api.nvim_get_current_buf()
         if not(BufferIsInWorkspaceAndWorktree(currentBuffer)) then

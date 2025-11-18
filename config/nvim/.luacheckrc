@@ -9,6 +9,7 @@ std = {
     "package",
     "io",
     "s",
+    "i",
     "t",
     "f",
     "c"

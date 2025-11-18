@@ -35,5 +35,20 @@ return {
           Lua = {}
         }
       })
+
+      vim.lsp.config('ts_ls', {
+        settings = {
+          typescript = {
+            preferences = {
+              quoteStyle = "single"
+            }
+          },
+          javascript = {
+            preferences = {
+              quoteStyle = "single"
+            }
+          }
+        }
+      })
     end
   }
