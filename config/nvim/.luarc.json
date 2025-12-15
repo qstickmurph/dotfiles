@@ -1,0 +1,12 @@
+{
+  "diagnostics.globals": [
+    "Snacks",
+    "vim",
+    "package",
+    "get_args",
+    "s",
+    "t",
+    "f",
+    "c"
+  ]
+}
