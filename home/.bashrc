@@ -10,3 +10,4 @@ fi
 export EDITOR='nvim'
 
 S1='[\u@\h \W]\$ '
+bind '"\t":menu-complete'

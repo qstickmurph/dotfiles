@@ -8,16 +8,17 @@ function printUsageString {
   echo "Usage: $0 [OPTIONS]"
   echo ""
   echo "Required options:"
-  echo "  --worktree-name NAME           Enter the name for the worktree"
-  echo "  --branch-name NAME             Enter the name for the git branch"
+  echo "  -w, --worktree NAME           Enter the name for the worktree"
+  echo "  -b, --branch NAME             Enter the name for the git branch"
   echo ""
   echo "Optional options:"
-  echo "  --parent-branch NAME           Enter the name of the parent branch (default: master)"
+  echo "  -p --parent NAME               Enter the name of the parent branch (default: master)"
   echo "  --should-not-change-directory  Whether this script should not remain in the worktree"
   echo "  -h, --help                     Show this help message"
+  echo "  -v, --verbose                  Run in verbose mode"
 }
 
-OPTS=$(getopt -o h,v -l worktree-name:,branch-name:,parent-branch:,start-program,should-not-change-directory,help -n "$0" -- "$@" 2> /dev/null)
+OPTS=$(getopt -o hw:b:p:v -l worktree:,branch:,parent:,should-not-change-directory,help,verbose -n "$0" -- "$@" 2> /dev/null)
 
 eval set -- "$OPTS"
 
@@ -27,15 +28,15 @@ while true; do
       VERBOSE=true
       shift
       ;;
-    --worktree-name)
+    -w|--worktree)
       WORKTREE_NAME="$2"
       shift 2
       ;;
-    --branch-name)
+    -b|--branch)
       BRANCH_NAME="$2"
       shift 2
       ;;
-    --parent-branch)
+    -p|--parent)
       PARENT_BRANCH="$2"
       shift 2
       ;;
@@ -100,7 +101,7 @@ fi
 [ "$VERBOSE" = true ] && echo "Created git worktree '$WORKTREE_NAME'"
 
 
-if [ "$SHOULD_NOT_CHANGE_DIRECTORY" = false ]; then
+if [ "$SHOULD_NOT_CHANGE_DIRECTORY" = "false" ]; then
   cd "./$WORKTREE_NAME" || exit 1
   [ "$VERBOSE" = true ] && echo "Entered worktree directory"
 fi

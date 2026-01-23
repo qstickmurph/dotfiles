@@ -197,7 +197,11 @@ return {
   {
    "<Leader>pf",
    function()
-    Snacks.picker.files()
+    Snacks.picker.files({
+      matcher = {
+        ignorecase = true
+      }
+    })
    end,
    desc = "Find Files",
   },
