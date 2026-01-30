@@ -55,6 +55,7 @@ return {
             'clang-format',
 
             -- Python
+            'pyright',
 
             -- Go
 
