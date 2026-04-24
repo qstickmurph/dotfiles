@@ -50,5 +50,18 @@ return {
           }
         }
       })
+
+      vim.lsp.config('angularls',{
+        cmd = {
+          "ngserver",
+          "--stdio",
+          "--tsProbeLocations",
+          "/home/hyperview/.nvm/versions/node/v24.14.0/lib/node_modules/typescript/",
+          "--ngProbeLocations",
+          "/home/hyperview/.nvm/versions/node/v24.14.0/lib/node_modules/@angular/language-server/"
+        },
+        filetypes = { "typescript", "html", "typescriptreact", "typescript.tsx" },
+        root_markers = { "angular.json", "project.json" },
+      })
     end
   }

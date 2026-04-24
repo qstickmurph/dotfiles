@@ -2,11 +2,12 @@ return {
   "mfussenegger/nvim-lint",
   event = { "BufReadPre", "BufNewFile" },
   config = function()
-    require("lint").linters_by_ft = {
+    local lint = require("lint")
+    lint.linters_by_ft = {
       _ = { "cspell" },
       lua = { "luacheck" },
       css = { "stylelint" },
-      html = { "htmlhint" },
+--      html = { "htmlhint" },
       bash = { "shellcheck" },
       yaml = { "yamllint" },
     }
