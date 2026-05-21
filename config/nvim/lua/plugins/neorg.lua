@@ -1,42 +1,3 @@
-local Path = require("pathlib")
-
-local function BufferIsInWorkspaceAndWorktree(buffer) 
-  local currentBufferBuftype = vim.api.nvim_get_option_value('buftype', {buf = buffer})
-  local currentBufferBufname = vim.api.nvim_buf_get_name(buffer)
-  if not (currentBufferBuftype == "" and currentBufferBufname ~= "") then
-    return false
-  end
-
-  local filePath = Path(currentBufferBufname)
-  local neorgWorkspaces = require("neorg").modules.get_module("core.dirman").get_workspaces()
-  local neorgWorkspacePaths = vim.tbl_values(neorgWorkspaces)
-
-  local isInWorkspace = vim.tbl_contains(
-    neorgWorkspacePaths,
-    function (path)
-      return filePath:is_relative_to(path)
-    end,
-    { predicate = true }
-  )
-
-  if not(isInWorkspace) then
-    return false
-  end
-
-  local gitCmd = {
-    "git",
-    "rev-parse",
-    "--is-inside-work-tree",
-    "2>/dev/null"
-  }
-  local isInGitWorktree = vim.system(gitCmd, { cwd = tostring(filePath:parent()), stderr = false }):wait().stdout ~= ""
-  if not(isInGitWorktree) then
-    return false
-  end
-
-  return true
-end
-
 return {
   "nvim-neorg/neorg",
   cmd = "Neorg",
@@ -110,6 +71,46 @@ return {
         ["external.conceal-wrap"] = {},
       },
     })
+
+    local Path = require("pathlib")
+
+    local function BufferIsInWorkspaceAndWorktree(buffer) 
+      local currentBufferBuftype = vim.api.nvim_get_option_value('buftype', {buf = buffer})
+      local currentBufferBufname = vim.api.nvim_buf_get_name(buffer)
+      if not (currentBufferBuftype == "" and currentBufferBufname ~= "") then
+        return false
+      end
+
+      local filePath = Path(currentBufferBufname)
+      local neorgWorkspaces = require("neorg").modules.get_module("core.dirman").get_workspaces()
+      local neorgWorkspacePaths = vim.tbl_values(neorgWorkspaces)
+
+      local isInWorkspace = vim.tbl_contains(
+        neorgWorkspacePaths,
+        function (path)
+          return filePath:is_relative_to(path)
+        end,
+        { predicate = true }
+      )
+
+      if not(isInWorkspace) then
+        return false
+      end
+
+      local gitCmd = {
+        "git",
+        "rev-parse",
+        "--is-inside-work-tree",
+        "2>/dev/null"
+      }
+      local isInGitWorktree = vim.system(gitCmd, { cwd = tostring(filePath:parent()), stderr = false }):wait().stdout ~= ""
+      if not(isInGitWorktree) then
+        return false
+      end
+
+      return true
+    end
+
     -- Neorg use journal snippet upon entering new journal
     vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
       desc = "Autopopulate neorg journals with journal snippet",
