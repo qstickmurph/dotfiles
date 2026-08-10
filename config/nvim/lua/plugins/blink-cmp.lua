@@ -16,9 +16,13 @@ return {
 		completion = { documentation = { auto_show = false } },
 		sources = {
 			default = { "lsp", "path", "snippets", "buffer" },
-			-- per_filetype = { 'dadbod' },
-			providers = {
-				-- dadbod = { name = "dadbod", module = "vim_dadbod_completion.blink" },
+			per_filetype = { 'orgmode' },
+      providers = {
+        orgmode = {
+          name = 'Orgmode',
+          module = 'orgmode.org.autocompletion.blink',
+          fallbacks = { 'buffer' },
+        },
 			},
 		},
 

@@ -1,3 +1,8 @@
+local function open_journal(dir)
+  local path = vim.fn.expand(dir) .. "/" .. os.date("%Y-%m-%d") .. ".org"
+  vim.cmd("edit " .. vim.fn.fnameescape(path))
+end
+
 return {
   { -- Vanilla remaps
     -- Change escape commands
@@ -457,72 +462,32 @@ return {
     },
   },
   { -- Notes group
-    "<Leader>n",
-    group = "Notes",
+    "<Leader>o",
+    group = "Org mode",
 
+    -- Indexes
     {
-      "<Leader>nw",
-      "<cmd>Neorg index<CR>",
-      desc = "Neorg Workspace"
+      "<Leader>oR",
+      "<cmd>e ~/Documents/notes/index.org<CR>",
+      desc = "Org root index"
     },
+    { "<Leader>oI", "<cmd>e index.norg<CR>", desc = "Org current index" },
+
+    -- Journal
     {
-      "<Leader>nW",
+      "<Leader>ojw",
       function()
-        local workspace_names = require("neorg").modules.get_module("core.dirman").get_workspace_names()
-        vim.ui.select(workspace_names, { prompt = "Select a Neorg workspace" }, function(workspace_name)
-          if workspace_name then
-            vim.cmd("Neorg workspace " .. workspace_name)
-          end
-        end)
+        open_journal("~/Documents/notes/work/journal")       -- adjust to your actual work journal dir
       end,
-      desc = "Choose Workspace",
+      desc = "Work journal"
     },
-
-    { "<Leader>nr", proxy = "<Leader>nw", desc="which_key_ignore" },
-    { "<Leader>ni", "<cmd>e index.norg<CR>", desc = "Neorg index" },
     {
-      "<Leader>nT",
-      function ()
-        local current_workspace_path = require("neorg").modules.get_module("core.dirman").get_current_workspace()[2]
-        vim.cmd("e " .. current_workspace_path .. "/todo.norg")
+      "<Leader>ojp",
+      function()
+        open_journal("~/Documents/notes/personal/journal")       -- adjust to your actual work journal dir
       end,
-      desc = "Neorg TODO List",
+      desc = "Personal journal"
     },
-    { "<Leader>nj", "<cmd>Neorg journal today<CR>", desc = "Neorg Today's Journal" },
-    { "<Leader>nJ", "<cmd>Neorg journal<CR>", desc = "Neorg Journal Selection" },
-
-    { -- Task Actions
-      "<Leader>nt",
-      group = "Task Actions",
-
-      { "<Leader>ntd", "<Plug>(neorg.qol.todo_items.todo.task_done)", desc = "Task Done" },
-      { "<Leader>ntu", "<Plug>(neorg.qol.todo_items.todo.task_undone)", desc = "Task Undone" },
-      { "<Leader>ntp", "<Plug>(neorg.qol.todo_items.todo.task_pending)", desc = "Task Pending" },
-      { "<Leader>nth", "<Plug>(neorg.qol.todo_items.todo.task_on_hold)", desc = "Task On Hold" },
-      { "<Leader>ntc", "<Plug>(neorg.qol.todo_items.todo.task_cancelled)", desc = "Task Cancelled" },
-      { "<Leader>ntr", "<Plug>(neorg.qol.todo_items.todo.task_recurring)", desc = "Task Recurring" },
-      { "<Leader>nti", "<Plug>(neorg.qol.todo_items.todo.task_important)", desc = "Task Important" },
-      { "<Leader>ntt", "<Plug>(neorg.qol.todo_items.todo.task_cycle)", desc = "Task Cycle" },
-    },
-
-    { -- List Actions
-      "<Leader>nl",
-      group = "List Actions",
-
-      { "<Leader>nlt", "<Plug>(neorg.pivot.toggle-list-type)", desc = "Toggle List Type" },
-      { "<Leader>nli", "<Plug>(neorg.pivot.invert-list-type)", desc = "Invert List Type" },
-    },
-
-    { "<Leader>j", "<Plug>(neorg.integrations.treesitter.next.heading)", desc = "Next Heading" },
-    { "<Leader>k", "<Plug>(neorg.integrations.treesitter.previous.heading)", desc = "Previous Heading" },
-    { "<Leader>nn", "<Plug>(neorg.integrations.treesitter.next.link)", desc = "Next Link" },
-    { "<Leader>np", "<Plug>(neorg.integrations.treesitter.previous.link)", desc = "Previous Link" },
-    { "<Leader>nn", "<Plug>(neorg.dirman.new.note)", desc = "New Note" },
-    { "<Leader>nc", "<Plug>(neorg.looking_glass.magnify_code_block)", desc = "Magnify Code Block" },
-    { "<CR>", "<Plug>(neorg.esupports.hop.hop-link)", desc = "which_key_ignore" },
-    { "<Leader><CR>", "<Plug>(neorg.esupports.hop.hop-link.vsplit)", desc = "which_key_ignore" },
-    { "<Leader><Leader><CR>", "<Plug>(neorg.esupports.hop.hop-link.split)", desc = "which_key_ignore" },
-    { mode="i", "<C-l>", "<Plug>(neorg.itero.next-iteration)", desc = "which_key_ignore" },
   },
   { -- Diagnostics Group
     "<Leader>d",
