@@ -23,7 +23,27 @@ return {
 
 
       return os.date("* %A, %b %d" .. suffix .. ", %Y", timestamp)
-     end),
-     t({ "", "** {:$/todo:}[TODO]", "** Notes", "  - "}),
-    }),
-   }
+    end),
+    t({ "", "** [[file:../todo.org][TODO]]", "** Notes", "- "}),
+  }),
+  s("standup", {
+    t({
+      "*** Standup",
+      "*Yesterday:*",
+      "- ",
+      "",
+      "*Today:*",
+      "- ",
+      "",
+      "*Needs/Blocks:*",
+      "- None"
+    })
+  }),
+  s("planning", {
+    t({ "*** Planning"}),
+    t({ "", "- Total: "}), i(1, "30"),
+    t({ "", "- Todo: "}), i(2, "0"),
+    t({ "", "- In-flight: "}), i(3, "0"),
+    t({ "", "- New: "}), i(4, "0"),
+  }),
+}

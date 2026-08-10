@@ -1,3 +1,8 @@
+local function open_journal(dir)
+  local path = vim.fn.expand(dir) .. "/" .. os.date("%Y-%m-%d") .. ".org"
+  vim.cmd("edit " .. vim.fn.fnameescape(path))
+end
+
 return {
 	{ -- Vanilla remaps
 		-- Change escape commands
@@ -440,86 +445,43 @@ return {
 				desc = "Git Commit",
 			},
 		},
-
-		{ -- Fugitive Keymaps
-			cond = function()
-				return vim.bo.filetype == "fugitive"
-			end,
-		},
-	},
-	{ -- Notes group
-		"<Leader>n",
-		group = "Notes",
-
-    {
-      "<Leader>nw",
-      "<cmd>Neorg index<CR>",
-      desc = "Neorg Workspace"
-    },
-		{
-			"<Leader>nW",
-			function()
-				local workspace_names = require("neorg").modules.get_module("core.dirman").get_workspace_names()
-				vim.ui.select(workspace_names, { prompt = "Select a Neorg workspace" }, function(workspace_name)
-          if workspace_name then
-            vim.cmd("Neorg workspace " .. workspace_name)
-          end
-				end)
-			end,
-			desc = "Choose Workspace",
-		},
-
-		{ "<Leader>nr", proxy = "<Leader>nw", desc="which_key_ignore" },
-		{ "<Leader>ni", "<cmd>e index.norg<CR>", desc = "Neorg index" },
-		{
-      "<Leader>nT",
-      function ()
-				local current_workspace_path = require("neorg").modules.get_module("core.dirman").get_current_workspace()[2]
-        vim.cmd("e " .. current_workspace_path .. "/todo.norg")
+    { -- Fugitive Keymaps
+      cond = function()
+        return vim.bo.filetype == "fugitive"
       end,
-      desc = "Neorg TODO List",
     },
-		{ "<Leader>nj", "<cmd>Neorg journal today<CR>", desc = "Neorg Today's Journal" },
-		{ "<Leader>nJ", "<cmd>Neorg journal<CR>", desc = "Neorg Journal Selection" },
+  },
+  { -- Notes group
+    "<Leader>o",
+    group = "Org mode",
 
-		{ -- Task Actions
-			"<Leader>nt",
-			group = "Task Actions",
+    -- Indexes
+    {
+      "<Leader>oR",
+      "<cmd>e ~/Documents/notes/index.org<CR>",
+      desc = "Org root index"
+    },
+    { "<Leader>oI", "<cmd>e index.norg<CR>", desc = "Org current index" },
 
-			{ "<Leader>ntd", "<Plug>(core.qol.todo_items.todo.task_done)", desc = "Task Done" },
-			{ "<Leader>ntu", "<Plug>(core.qol.todo_items.todo.task_undone)", desc = "Task Undone" },
-			{ "<Leader>ntp", "<Plug>(core.qol.todo_items.todo.task_pending)", desc = "Task Pending" },
-			{ "<Leader>nth", "<Plug>(core.qol.todo_items.todo.task_on_hold)", desc = "Task On Hold" },
-			{ "<Leader>ntc", "<Plug>(core.qol.todo_items.todo.task_cancelled)", desc = "Task Cancelled" },
-			{ "<Leader>ntr", "<Plug>(core.qol.todo_items.todo.task_recurring)", desc = "Task Recurring" },
-			{ "<Leader>nti", "<Plug>(core.qol.todo_items.todo.task_important)", desc = "Task Important" },
-			{ "<Leader>ntt", "<Plug>(core.qol.todo_items.todo.task_cycle)", desc = "Task Cycle" },
-		},
-
-		{ -- List Actions
-			"<Leader>nl",
-			group = "List Actions",
-
-			{ "<Leader>nlt", "<Plug>(core.pivot.toggle-list-type)", desc = "Toggle List Type" },
-			{ "<Leader>nli", "<Plug>(core.pivot.invert-list-type)", desc = "Invert List Type" },
-		},
-
-		{ "<Leader>j", "<Plug>(core.integrations.treesitter.next.heading)", desc = "Next Heading" },
-		{ "<Leader>k", "<Plug>(core.integrations.treesitter.previous.heading)", desc = "Previous Heading" },
-		{ "<Leader>nn", "<Plug>(core.integrations.treesitter.next.link)", desc = "Next Link" },
-		{ "<Leader>np", "<Plug>(core.integrations.treesitter.previous.link)", desc = "Previous Link" },
-		{ "<Leader>nn", "<Plug>(core.dirman.new.note)", desc = "New Note" },
-		{ "<Leader>nc", "<Plug>(core.looking_glass.magnify_code_block)", desc = "Magnify Code Block" },
-		{
-			"<c-cr>",
-			"<cmd>vert split<CR><cmd>wincmd l<CR><cmd>Neorg keybind norg core.esupports.hop.hop-link<CR>",
-			desc = "Navigate in new pane",
-		},
-		{ "<Leader>nsl", "ciw{:<esc>pi:}[]<esc>P", desc = "which_key_ignore" },
-	},
-	{ -- Diagnostics Group
-		"<Leader>d",
-		group = "Diagnostics",
+    -- Journal
+    {
+      "<Leader>ojw",
+      function()
+        open_journal("~/Documents/notes/work/journal")       -- adjust to your actual work journal dir
+      end,
+      desc = "Work journal"
+    },
+    {
+      "<Leader>ojp",
+      function()
+        open_journal("~/Documents/notes/personal/journal")       -- adjust to your actual work journal dir
+      end,
+      desc = "Personal journal"
+    },
+  },
+  { -- Diagnostics Group
+    "<Leader>d",
+    group = "Diagnostics",
 
 		{
 			"<Leader>dd",
