@@ -44,7 +44,7 @@ return {
 
             -- C#
             'roslyn',
-            'rzls',
+            -- 'rzls',
             'sonarlint-language-server',
             'netcoredbg',
 

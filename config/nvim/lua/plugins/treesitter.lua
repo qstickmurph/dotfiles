@@ -17,8 +17,6 @@ return {
 				"lua",
 				"vim",
 				"vimdoc",
-				"norg",
-				"norg_meta",
 				"query",
 				"python",
 				"html",
