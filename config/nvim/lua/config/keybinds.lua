@@ -471,7 +471,14 @@ return {
       "<cmd>e ~/Documents/notes/index.org<CR>",
       desc = "Org root index"
     },
-    { "<Leader>oI", "<cmd>e index.norg<CR>", desc = "Org current index" },
+    {
+      "<Leader>oI",
+      function()
+        local parent_dir = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h:t")
+        vim.cmd("e " .. parent_dir .. ".norg")
+      end,
+      desc = "Org current dir base"
+  },
 
     -- Journal
     {
