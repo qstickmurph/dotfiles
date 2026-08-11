@@ -25,6 +25,9 @@ end
 
 return {
   'nvim-orgmode/orgmode',
+  dependencies = {
+    'pysan3/pathlib.nvim'
+  },
   event = 'VeryLazy',
   ft = { 'org' },
   config = function()
