@@ -81,11 +81,12 @@
             "critical": 15
         },
         "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% {icon}",
         "format-icons": ["", "", "", "", ""],
         "max-length": 25
     },
     "network": {
-        "interface": "wlp3s0",
+        "interface": "wlp0s20f3",
         "format": "{ifname}",
         "format-wifi": "{essid} ({signalStrength}%) ",
         "format-ethernet": "{ifname} ",
