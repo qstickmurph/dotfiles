@@ -30,8 +30,8 @@ return {
   config = function()
     -- Setup orgmode
     require('orgmode').setup({
-      org_agenda_files = '~/Documents/notes/**/*',
-      org_default_notes_file = '~/Documents/notes/refile.org',
+      org_agenda_files = { '~/Documents/notes/**/*' },
+      org_default_notes_file = '~/Documents/notes/inbox.org',
       org_todo_keywords = {
         'TODO(t)',
         'INPROGRESS(i)',
@@ -48,7 +48,7 @@ return {
       win_border = 'rounded',
       org_startup_folded = 'content',
       org_todo_keyword_faces = {}, -- TODO
-      -- org_archive_location = 
+      org_archive_location = '~/Documents/notes/archive/%s_archive::',
       org_hide_leading_stars = false,
       org_hide_emphasis_markers = true,
       org_ellipsis = '...',
