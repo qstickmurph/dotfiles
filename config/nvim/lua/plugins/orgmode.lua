@@ -261,7 +261,7 @@ return {
     -- Org use journal snippet upon entering new journal
     vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
       desc = "Autopopulate neorg journals with journal snippet",
-      pattern = "*/journal/*.org",
+      pattern = "*/journal-*/*.org",
       callback = function()
         local line_count = vim.api.nvim_buf_line_count(0)
         local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]

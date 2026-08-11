@@ -484,14 +484,14 @@ return {
     {
       "<Leader>ojw",
       function()
-        open_journal("~/Documents/notes/work/journal")       -- adjust to your actual work journal dir
+        open_journal("~/Documents/notes/journal-work")       -- adjust to your actual work journal dir
       end,
       desc = "Work journal"
     },
     {
       "<Leader>ojp",
       function()
-        open_journal("~/Documents/notes/personal/journal")       -- adjust to your actual work journal dir
+        open_journal("~/Documents/notes/journal-personal/")       -- adjust to your actual work journal dir
       end,
       desc = "Personal journal"
     },
