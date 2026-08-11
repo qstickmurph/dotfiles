@@ -216,8 +216,8 @@ return {
       },
       org_agenda_min_height = 16,
       org_priority_highest = 'A',
-      org_priority_default = 'B',
-      org_priority_lowest = 'C',
+      org_priority_default = 'C',
+      org_priority_lowest = 'F',
       org_agenda_skip_scheduled_if_done = false,
       org_agenda_skip_deadline_if_done = false,
       org_agenda_text_search_extra_files = {},
@@ -246,6 +246,14 @@ return {
     vim.lsp.enable('org')
 
     vim.opt.conceallevel = 2
+
+    -- Custom highlighting
+    ---- Priorities
+    vim.api.nvim_set_hl(0, "@org.priority.highest", { link = "GruvboxRedSign" })
+    vim.api.nvim_set_hl(0, "@org.priority.high", { link = "GruvboxOrangeSign" })
+    vim.api.nvim_set_hl(0, "@org.priority.default", { link = "GruvboxYellowSign" })
+    vim.api.nvim_set_hl(0, "@org.priority.low", { link = "GruvboxBlueSign" })
+    vim.api.nvim_set_hl(0, "@org.priority.lowest", { link = "GruvboxPurpleSign" })
 
     -- Shift Enter for meta return
     vim.api.nvim_create_autocmd('FileType', {
