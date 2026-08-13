@@ -256,6 +256,8 @@ return {
 
     ---- Agenda
     vim.api.nvim_set_hl(0, "@org.agenda.day", { link = "GruvboxGreen" })
+    vim.api.nvim_set_hl(0, "@org.agenda.scheduled", { link = "GruvboxBlue" })
+    vim.api.nvim_set_hl(0, "@org.agenda.deadline", { link = "GruvboxRed" })
     vim.api.nvim_set_hl(0, "@org.agenda.time_grid", { link = "GruvboxGray" })
 
     ---- Headlines
