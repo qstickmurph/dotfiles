@@ -24,7 +24,7 @@ return {
 
       return os.date("* %A, %b %d" .. suffix .. ", %Y", timestamp)
     end),
-    t({ "", "** [[file:../todo.org][TODO]]", "** Notes", "- "}),
+    t({ "", "** Notes"}),
   }),
   s("standup", {
     t({

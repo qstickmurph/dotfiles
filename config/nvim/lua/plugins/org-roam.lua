@@ -1,19 +1,24 @@
 return {
   "chipsenkbeil/org-roam.nvim",
-  -- tag = "0.2.0",
   dependencies = {
     {
       "nvim-orgmode/orgmode",
-      tag = "0.7.0",
     },
   },
+  event = 'VeryLazy',
+  ft = { 'org' },
   config = function()
     require("org-roam").setup({
       directory = "~/Documents/notes/roam",
       -- optional
       org_files = {
         "~/Documents/notes",
-      }
+      },
+      database = {
+        path = vim.fs.joinpath(vim.fn.stdpath('data'), 'org-roam');
+        persist = true,
+        update_on_save = true
+      },
     })
   end
 }
