@@ -38,6 +38,14 @@ return {
           use_vim_ui = true
         }
       },
+      notifications = {
+        enabled = true,            -- Set to false to completely turn off notifications
+        cron_enabled = false,      -- Keep false if you only want in-editor popups
+        repeats = 10,              -- Number of times to repeat the notification
+        reminder_time = {10, 5, 0},-- Remind 10 mins, 5 mins, and exactly on time
+        deadline_reminder_days = 7,-- Start reminding 7 days before a deadline
+        cron_notifier = nil,       -- Used for external notifications (see below)
+      },
       org_agenda_files = { '~/Documents/notes/**/*' },
       org_default_notes_file = '~/Documents/notes/inbox.org',
       org_todo_keywords = {
