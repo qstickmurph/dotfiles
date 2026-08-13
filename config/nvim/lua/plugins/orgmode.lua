@@ -33,6 +33,11 @@ return {
   config = function()
     -- Setup orgmode
     require('orgmode').setup({
+      ui = {
+        input = {
+          use_vim_ui = true
+        }
+      },
       org_agenda_files = { '~/Documents/notes/**/*' },
       org_default_notes_file = '~/Documents/notes/inbox.org',
       org_todo_keywords = {
@@ -51,7 +56,17 @@ return {
       win_split_mode = 'auto',
       win_border = 'rounded',
       org_startup_folded = 'content',
-      org_todo_keyword_faces = {}, -- TODO
+      org_todo_keyword_faces = {
+        TODO = ':foreground #fb4934 :weight bold',
+        INPROGRESS = ':foreground #b8bb26 :weight bold :underline on',
+        NEXT = ':foreground #fabd2f :weight bold',
+        BLOCKED = ':foreground #fe8019 :slant italic',
+        SOMEDAY = ':foreground #8ec07c :slant italic',
+        APPT = ':foreground #d3869b',
+        DONE = ':foreground #928374',
+        DELEGATED = ':foreground #928374 :slant italic :background #3c3836',
+        DROPPED = ':foreground #928374',
+      },
       org_archive_location = '~/Documents/notes/archive/%s_archive::',
       org_hide_leading_stars = false,
       org_hide_emphasis_markers = true,
@@ -209,7 +224,9 @@ return {
           org_agenda = '<Leader>oa',
           org_capture = '<Leader>oc',
         },
-        agenda = {},
+        agenda = {
+          org_agenda_preview = '<Leader>oak'
+        },
         capture = {},
         note = {},
         org = {},
@@ -223,11 +240,28 @@ return {
 
     -- Custom highlighting
     ---- Priorities
-    vim.api.nvim_set_hl(0, "@org.priority.highest", { link = "GruvboxRedSign" })
-    vim.api.nvim_set_hl(0, "@org.priority.high", { link = "GruvboxOrangeSign" })
-    vim.api.nvim_set_hl(0, "@org.priority.default", { link = "GruvboxYellowSign" })
-    vim.api.nvim_set_hl(0, "@org.priority.low", { link = "GruvboxBlueSign" })
-    vim.api.nvim_set_hl(0, "@org.priority.lowest", { link = "GruvboxPurpleSign" })
+    vim.api.nvim_set_hl(0, "@org.priority.lowest", { fg = "#d3869b", bg = "#3c3836", italic = true })
+    vim.api.nvim_set_hl(0, "@org.priority.low", { fg = "#83a598", bg = "#3c3836", italic = true })
+    vim.api.nvim_set_hl(0, "@org.priority.default", { fg = "#fabd2f", bg = "#3c3836" })
+    vim.api.nvim_set_hl(0, "@org.priority.high", { fg = "#fe8019", bg = "#3c3836", bold = true })
+    vim.api.nvim_set_hl(0, "@org.priority.highest", { fg = "#fb4934", bg = "#3c3836", bold = true, underline = true })
+
+    ---- Agenda
+    vim.api.nvim_set_hl(0, "@org.agenda.day", { link = "GruvboxGreen" })
+    vim.api.nvim_set_hl(0, "@org.agenda.time_grid", { link = "GruvboxGray" })
+
+    ---- Headlines
+    vim.api.nvim_set_hl(0, "@org.headline.level1.org", { link = "GruvboxRed" })
+    vim.api.nvim_set_hl(0, "@org.headline.level2.org", { link = "GruvboxOrange" })
+    vim.api.nvim_set_hl(0, "@org.headline.level3.org", { link = "GruvboxYellow" })
+    vim.api.nvim_set_hl(0, "@org.headline.level4.org", { link = "GruvboxGreen" })
+    vim.api.nvim_set_hl(0, "@org.headline.level5.org", { link = "GruvboxAqua" })
+    vim.api.nvim_set_hl(0, "@org.headline.level6.org", { link = "GruvboxBlue" })
+    vim.api.nvim_set_hl(0, "@org.headline.level7.org", { link = "GruvboxPurple" })
+    vim.api.nvim_set_hl(0, "@org.headline.level8.org", { link = "GruvboxGray" })
+
+    ---- Keywords
+    vim.api.nvim_set_hl(0, "@org.keyword.face.DROPPED.org", { strikethrough = true })
 
     -- Shift Enter for meta return
     vim.api.nvim_create_autocmd('FileType', {
