@@ -24,4 +24,4 @@ fi
 
 alias vim='nvim'
 alias nv='nvim'
-alias neorg='nvim ~/Documents/notes/index.norg'
+alias neorg='nvim ~/Documents/notes/index.org'

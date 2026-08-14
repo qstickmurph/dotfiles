@@ -13,21 +13,8 @@ return {
         -- stylua: ignore
         keys = {
           { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
-          { icon = "󱈹 ", key = "w", desc = "Neorg Workspace", action = "<cmd>Neorg index<CR>" },
-          { icon = " ", key = "J", desc = "Neorg Journal", action = "<cmd>Neorg journal today<CR>" },
-          {
-            icon = "󱈹 ",
-            key = "W",
-            desc = "Neorg Choose Workspaces",
-            action = function()
-              local workspace_names = require("neorg").modules.get_module("core.dirman").get_workspace_names()
-              vim.ui.select(workspace_names, { prompt = "Select a Neorg workspace" }, function(workspace_name)
-                if workspace_name then
-                  vim.cmd("Neorg workspace " .. workspace_name)
-                end
-              end)
-            end,
-          },
+          { icon = "󱈹 ", key = "o", desc = "Orgmode", action = "<cmd>e ~/Documents/notes/index.org<CR>" },
+          { icon = " ", key = "a", desc = "Orgmode Agenda", action = "<cmd>Org agenda<CR>" },
           { icon = " ", key = "g", desc = "Git", action = "<cmd>Git<CR>" },
           { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
           { icon = " ", key = "s", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },

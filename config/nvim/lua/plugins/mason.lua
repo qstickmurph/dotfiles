@@ -21,6 +21,7 @@ return {
 
             -- Bash
             'bash-language-server',
+            'fish-lsp',
             'shellcheck',
             'bash-debug-adapter',
 
