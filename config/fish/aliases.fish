@@ -32,3 +32,5 @@ end
 alias vim="nvim"
 alias nv="nvim"
 alias neorg="nvim ~/Documents/notes/index.org"
+
+alias pwsh=powershell.exe

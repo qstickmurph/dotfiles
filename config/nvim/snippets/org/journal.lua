@@ -21,10 +21,18 @@ return {
       elseif day == "3" or day == "23" then suffix = "rd"
       end
 
-
-      return os.date("* %A, %b %d" .. suffix .. ", %Y", timestamp)
+      return {
+       os.date("#+TITLE: %A, %b %d" .. suffix .. ", %Y", timestamp),
+       os.date("#+DATE: [%Y-%m-%d %a]", timestamp)
+      }
     end),
-    t({ "", "** Notes"}),
+    t({
+      "",
+      "#+FILETAGS: :work:",
+      "",
+      "* Notes",
+      "* Time Blocking"
+    }),
   }),
   s("standup", {
     t({

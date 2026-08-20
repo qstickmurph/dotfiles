@@ -9,3 +9,8 @@ vim.lsp.enable("ts_ls")
 vim.lsp.enable("angularls")
 -- vim.lsp.enable("roslyn_ls") using roslyn.nvim plugin instead
 vim.lsp.enable("basedpyright")
+
+vim.diagnostic.config({
+  virtual_text = { source = "always" },
+  float = { source = "always" },
+})

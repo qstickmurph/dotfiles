@@ -26,7 +26,29 @@ end
 return {
   'nvim-orgmode/orgmode',
   dependencies = {
-    'pysan3/pathlib.nvim'
+    'pysan3/pathlib.nvim',
+    {
+      "nvim-orgmode/org-bullets.nvim",
+      opts = {
+        concealcursor = false, -- If false then when the cursor is on a line underlying characters are visible
+        symbols = {
+          -- list symbol
+          list = "•",
+          -- headlines can be a list
+          headlines = {
+            { "◉", "@org.headline.level1.org" },
+            { "○", "@org.headline.level2.org" },
+            { "✸", "@org.headline.level3.org" },
+            { "✿", "@org.headline.level4.org" }
+          },
+        },
+        checkboxes = {
+          half = { "", "@org.checkbox.halfchecked" },
+          done = { "✓", "@org.keyword.done" },
+          todo = { "", "@org.keyword.todo" },
+        },
+      }
+    }
   },
   event = 'VeryLazy',
   ft = { 'org' },
@@ -119,7 +141,7 @@ return {
       org_agenda_block_separator = '-',
       org_agenda_remove_tags = false,
       org_agenda_time_grid = {
-        type = { 'daily' },
+        type = { 'daily', 'today', 'remove-match', 'remove-range-match' },
         times = { 800, 1000, 1200, 1400, 1600, 1800, 2000 },
         time_separator = '┄┄┄┄┄',
         time_label = '┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄'
@@ -320,8 +342,8 @@ return {
 
         vim.opt_local.conceallevel = 3
 
-        vim.opt_local.wrap = true
-        vim.opt_local.linebreak = true
+        vim.opt_local.wrap = false
+        vim.opt_local.linebreak = false
         vim.opt.colorcolumn = "80"
 
         vim.opt.tabstop = 1
