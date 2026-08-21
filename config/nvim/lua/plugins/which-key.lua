@@ -5,18 +5,20 @@ return {
   },
   event = "VeryLazy",
   opts = {
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
-    triggers = {
-      { "<leader>", mode = { "n", "v" } },
-      { "<C-w>", mode="n" },
-    }
+   keys = {
+    scroll_down = "<c-j>",
+    scroll_up = "<c-k>",
+   },
+   triggers = {
+    { "<leader>", mode = { "n", "v" } },
+    { "<C-w>", mode="n" },
+   }
   },
-  config = function()
-    local wk = require('which-key')
-    local keybinds = require('config.keybinds')
+  config = function(_, opts)
+   local wk = require('which-key')
+   wk.setup(opts)
 
-    wk.add(keybinds)
+   local keybinds = require('config.keybinds')
+   wk.add(keybinds)
   end
-}
+ }

@@ -35,5 +35,33 @@ return {
           Lua = {}
         }
       })
+
+      vim.lsp.config('ts_ls', {
+        settings = {
+          typescript = {
+            preferences = {
+              quoteStyle = "single"
+            }
+          },
+          javascript = {
+            preferences = {
+              quoteStyle = "single"
+            }
+          }
+        }
+      })
+
+      vim.lsp.config('angularls',{
+        cmd = {
+          "ngserver",
+          "--stdio",
+          "--tsProbeLocations",
+          "/home/hyperview/.nvm/versions/node/v24.14.0/lib/node_modules/typescript/",
+          "--ngProbeLocations",
+          "/home/hyperview/.nvm/versions/node/v24.14.0/lib/node_modules/@angular/language-server/"
+        },
+        filetypes = { "typescript", "html", "typescriptreact", "typescript.tsx" },
+        root_markers = { "angular.json", "project.json" },
+      })
     end
   }

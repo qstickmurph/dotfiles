@@ -21,6 +21,7 @@ return {
 
             -- Bash
             'bash-language-server',
+            'fish-lsp',
             'shellcheck',
             'bash-debug-adapter',
 
@@ -55,7 +56,6 @@ return {
             'clang-format',
 
             -- Python
-            'pyright',
 
             -- Go
 

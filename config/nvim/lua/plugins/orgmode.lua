@@ -25,11 +25,49 @@ end
 
 return {
   'nvim-orgmode/orgmode',
+  dependencies = {
+    'pysan3/pathlib.nvim',
+    {
+      "nvim-orgmode/org-bullets.nvim",
+      opts = {
+        concealcursor = false, -- If false then when the cursor is on a line underlying characters are visible
+        symbols = {
+          -- list symbol
+          list = "•",
+          -- headlines can be a list
+          headlines = {
+            { "◉", "@org.headline.level1.org" },
+            { "○", "@org.headline.level2.org" },
+            { "✸", "@org.headline.level3.org" },
+            { "✿", "@org.headline.level4.org" }
+          },
+        },
+        checkboxes = {
+          half = { "", "@org.checkbox.halfchecked" },
+          done = { "✓", "@org.keyword.done" },
+          todo = { "", "@org.keyword.todo" },
+        },
+      }
+    }
+  },
   event = 'VeryLazy',
   ft = { 'org' },
   config = function()
     -- Setup orgmode
     require('orgmode').setup({
+      ui = {
+        input = {
+          use_vim_ui = true
+        }
+      },
+      notifications = {
+        enabled = true,            -- Set to false to completely turn off notifications
+        cron_enabled = false,      -- Keep false if you only want in-editor popups
+        repeats = 10,              -- Number of times to repeat the notification
+        reminder_time = {10, 5, 0},-- Remind 10 mins, 5 mins, and exactly on time
+        deadline_reminder_days = 7,-- Start reminding 7 days before a deadline
+        cron_notifier = nil,       -- Used for external notifications (see below)
+      },
       org_agenda_files = { '~/Documents/notes/**/*' },
       org_default_notes_file = '~/Documents/notes/inbox.org',
       org_todo_keywords = {
@@ -38,6 +76,7 @@ return {
         'NEXT(n)',
         'BLOCKED(b)',
         'SOMEDAY(s)',
+        'APPT(a)',
         '|',
         'DONE(d)',
         'DELEGATED(e)',
@@ -47,14 +86,24 @@ return {
       win_split_mode = 'auto',
       win_border = 'rounded',
       org_startup_folded = 'content',
-      org_todo_keyword_faces = {}, -- TODO
+      org_todo_keyword_faces = {
+        TODO = ':foreground #fb4934 :weight bold',
+        INPROGRESS = ':foreground #b8bb26 :weight bold :underline on',
+        NEXT = ':foreground #fabd2f :weight bold',
+        BLOCKED = ':foreground #fe8019 :slant italic',
+        SOMEDAY = ':foreground #8ec07c :slant italic',
+        APPT = ':foreground #d3869b',
+        DONE = ':foreground #928374',
+        DELEGATED = ':foreground #928374 :slant italic :background #3c3836',
+        DROPPED = ':foreground #928374',
+      },
       org_archive_location = '~/Documents/notes/archive/%s_archive::',
       org_hide_leading_stars = false,
       org_hide_emphasis_markers = true,
       org_ellipsis = '...',
       org_log_done = 'time',
       org_log_repeat = 'time',
-      org_log_into_drawer = nil,
+      org_log_into_drawer = 'LOGBOOK',
       org_highlight_latex_and_related = 'entities',
       org_startup_indented = true,
       org_adapt_indentation = true,
@@ -92,7 +141,7 @@ return {
       org_agenda_block_separator = '-',
       org_agenda_remove_tags = false,
       org_agenda_time_grid = {
-        type = { 'daily', 'today', 'require-timed' },
+        type = { 'daily', 'today', 'remove-match', 'remove-range-match' },
         times = { 800, 1000, 1200, 1400, 1600, 1800, 2000 },
         time_separator = '┄┄┄┄┄',
         time_label = '┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄'
@@ -101,118 +150,88 @@ return {
       org_agenda_current_time_string = '<- now -----------------------------------------------',
       org_agenda_show_future_repeats = true,
       org_capture_templates = {
-        p = {
-          description = "Personal",
-          subtemplates = {
-            t = {
-              description = 'Tasks',
-              subtemplates = {
-                t = {
-                  description = 'TODO',
-                  template = '* TODO %?\n %u',
-                  target = '~/Documents/notes/personal/todo.org',
-                },
-                r = {
-                  description = 'Recurring',
-                  template = '* TODO %?\n %u',
-                  target = '~/Documents/notes/personal/todo.org',
-                },
-                s = {
-                  description = 'Someday',
-                  template = '* SOMEDAY %?\n %u',
-                  target = '~/Documents/notes/personal/todo.org',
-                }
-              }
-            },
-            j = {
-              description = 'Journal',
-              template = '%U\n%?',
-              target = '~/Documents/notes/personal/journal/%<%Y-%m-%d>.org',
-              headline = '%(local d=os.date("*t");local s="th";local r=d.day%10;if r==1 and d.day~=11 then s="st" elseif r==2 and d.day~=12 then s="nd" elseif r==3 and d.day~=13 then s="rd" end;return os.date("%A, %b ")..d.day..s..os.date(", %Y"))',
-            },
-            l = {
-              description = 'List',
-              template = '- %?',
-              target = '~/Documents/notes/personal/refile.org',
-            },
-            c = {
-              description = 'List',
-              template = '- [ ] %?',
-              target = '~/Documents/notes/personal/refile.org',
-            },
-            h = {
-              description = 'Heading',
-              template = '* %?',
-              target = '~/Documents/notes/personal/refile.org',
-            },
-            q = {
-              description = 'Quick Note',
-              template = '%?',
-              target = '~/Documents/notes/personal/refile.org',
-            },
-            u = {
-              description = 'URL/Link',
-              template = '* %?\n %x\n %u',
-              target = '~/Documents/notes/personal/refile.org',
-            }
-          },
+        l = {
+          description = 'List',
+          template = '- %?',
+          target = '~/Documents/notes/inbox.org',
         },
-        w = {
-          description = "Work",
+        c = {
+          description = 'List',
+          template = '- [ ] %?',
+          target = '~/Documents/notes/inbox.org',
+        },
+        h = {
+          description = 'Heading',
+          template = '* %?\n:PROPERTIES:\n:CREATED: %U\n:END:',
+          target = '~/Documents/notes/inbox.org',
+        },
+        q = {
+          description = 'Quick Note',
+          template = '%?',
+          target = '~/Documents/notes/inbox.org',
+        },
+        u = {
+          description = 'URL/Link',
+          template = '* %?\n %x\n:PROPERTIES:\n:CREATED: %U\n:END:',
+          target = '~/Documents/notes/inbox.org',
+        },
+        t = {
+          description = "Task",
           subtemplates = {
             t = {
-              description = 'Tasks',
-              subtemplates = {
-                t = {
-                  description = 'TODO',
-                  template = '* TODO %?\n %u',
-                  target = '~/Documents/notes/work/todo.org',
-                },
-                r = {
-                  description = 'Recurring',
-                  template = '* TODO %?\n %u',
-                  target = '~/Documents/notes/work/todo.org',
-                },
-                s = {
-                  description = 'Someday',
-                  template = '* SOMEDAY %?\n %u',
-                  target = '~/Documents/notes/work/todo.org',
-                }
-              }
+              description = 'TOOD',
+              template = '* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:',
+              target = '~/Documents/notes/inbox.org',
             },
-            j = {
-              description = 'Journal',
-              template = '%U\n%?',
-              target = '~/Documents/notes/work/journal/%<%Y-%m-%d>.org',
-              headline = '%(local d=os.date("*t");local s="th";local r=d.day%10;if r==1 and d.day~=11 then s="st" elseif r==2 and d.day~=12 then s="nd" elseif r==3 and d.day~=13 then s="rd" end;return os.date("%A, %b ")..d.day..s..os.date(", %Y"))',
+            s = {
+              description = 'Scheduled Task',
+              template = '* TODO %?\n  SCHEDULED: %^t\n  %u',
+              target = '~/Documents/notes/inbox.org',
             },
             l = {
-              description = 'List',
-              template = '- %?',
-              target = '~/Documents/notes/work/refile.org',
+              description = 'Deadline Task',
+              template = '* TODO %?\n  SCHEDULED: %^t\n  %u',
+              target = '~/Documents/notes/inbox.org',
             },
-            c = {
-              description = 'List',
-              template = '- [ ] %?',
-              target = '~/Documents/notes/work/refile.org',
+            o = {
+              description = 'SOMEDAY',
+              template = '* SOMEDAY %?\n:PROPERTIES:\n:CREATED: %U\n:END:',
+              target = '~/Documents/notes/inbox.org',
             },
-            h = {
-              description = 'Heading',
-              template = '* %?',
-              target = '~/Documents/notes/work/refile.org',
+            a = {
+              description = 'Daily Task',
+              template = '* TODO %?\n  SCHEDULED: <%<%Y-%m-%d %a> +1d>\n  %u',
+              target = '~/Documents/notes/inbox.org',
             },
-            q = {
-              description = 'Quick Note',
-              template = '%?',
-              target = '~/Documents/notes/work/refile.org',
+            w = {
+              description = 'Weekly Task',
+              template = '* TODO %?\n  SCHEDULED: <%<%Y-%m-%d %a> +1w>\n  %u',
+              target = '~/Documents/notes/inbox.org',
             },
-            u = {
-              description = 'URL/Link',
-              template = '* %?\n %x\n %u',
-              target = '~/Documents/notes/work/refile.org',
-            }
+            m = {
+              description = 'Monthly Task',
+              template = '* TODO %?\n  SCHEDULED: <%<%Y-%m-%d %a> +1m>\n  %u',
+              target = '~/Documents/notes/inbox.org',
+            },
           }
         },
+        j = {
+          description = "Journal",
+          subtemplates = {
+            p = {
+              description = 'Personal Journal',
+              template = '* %?',
+              headline = "Notes",
+              target = '~/Documents/notes/journal-personal/%<%Y-%m-%d>.org',
+            },
+            w = {
+              description = 'Work Journal',
+              template = '* %?',
+              headline = "Notes",
+              target = '~/Documents/notes/journal-work/%<%Y-%m-%d>.org',
+            }
+          }
+        }
       },
       org_agenda_min_height = 16,
       org_priority_highest = 'A',
@@ -235,7 +254,9 @@ return {
           org_agenda = '<Leader>oa',
           org_capture = '<Leader>oc',
         },
-        agenda = {},
+        agenda = {
+          org_agenda_preview = '<Leader>oak'
+        },
         capture = {},
         note = {},
         org = {},
@@ -249,11 +270,30 @@ return {
 
     -- Custom highlighting
     ---- Priorities
-    vim.api.nvim_set_hl(0, "@org.priority.highest", { link = "GruvboxRedSign" })
-    vim.api.nvim_set_hl(0, "@org.priority.high", { link = "GruvboxOrangeSign" })
-    vim.api.nvim_set_hl(0, "@org.priority.default", { link = "GruvboxYellowSign" })
-    vim.api.nvim_set_hl(0, "@org.priority.low", { link = "GruvboxBlueSign" })
-    vim.api.nvim_set_hl(0, "@org.priority.lowest", { link = "GruvboxPurpleSign" })
+    vim.api.nvim_set_hl(0, "@org.priority.lowest", { fg = "#d3869b", bg = "#3c3836", italic = true })
+    vim.api.nvim_set_hl(0, "@org.priority.low", { fg = "#83a598", bg = "#3c3836", italic = true })
+    vim.api.nvim_set_hl(0, "@org.priority.default", { fg = "#fabd2f", bg = "#3c3836" })
+    vim.api.nvim_set_hl(0, "@org.priority.high", { fg = "#fe8019", bg = "#3c3836", bold = true })
+    vim.api.nvim_set_hl(0, "@org.priority.highest", { fg = "#fb4934", bg = "#3c3836", bold = true, underline = true })
+
+    ---- Agenda
+    vim.api.nvim_set_hl(0, "@org.agenda.day", { link = "GruvboxGreen" })
+    vim.api.nvim_set_hl(0, "@org.agenda.scheduled", { link = "GruvboxBlue" })
+    vim.api.nvim_set_hl(0, "@org.agenda.deadline", { link = "GruvboxRed" })
+    vim.api.nvim_set_hl(0, "@org.agenda.time_grid", { link = "GruvboxGray" })
+
+    ---- Headlines
+    vim.api.nvim_set_hl(0, "@org.headline.level1.org", { link = "GruvboxRed" })
+    vim.api.nvim_set_hl(0, "@org.headline.level2.org", { link = "GruvboxOrange" })
+    vim.api.nvim_set_hl(0, "@org.headline.level3.org", { link = "GruvboxYellow" })
+    vim.api.nvim_set_hl(0, "@org.headline.level4.org", { link = "GruvboxGreen" })
+    vim.api.nvim_set_hl(0, "@org.headline.level5.org", { link = "GruvboxAqua" })
+    vim.api.nvim_set_hl(0, "@org.headline.level6.org", { link = "GruvboxBlue" })
+    vim.api.nvim_set_hl(0, "@org.headline.level7.org", { link = "GruvboxPurple" })
+    vim.api.nvim_set_hl(0, "@org.headline.level8.org", { link = "GruvboxGray" })
+
+    ---- Keywords
+    vim.api.nvim_set_hl(0, "@org.keyword.face.DROPPED.org", { strikethrough = true })
 
     -- Shift Enter for meta return
     vim.api.nvim_create_autocmd('FileType', {
@@ -269,7 +309,7 @@ return {
     -- Org use journal snippet upon entering new journal
     vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
       desc = "Autopopulate neorg journals with journal snippet",
-      pattern = "*/journal/*.org",
+      pattern = "*/journal-*/*.org",
       callback = function()
         local line_count = vim.api.nvim_buf_line_count(0)
         local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]
@@ -302,10 +342,9 @@ return {
 
         vim.opt_local.conceallevel = 3
 
-        vim.opt_local.wrap = true
-        vim.opt_local.linebreak = true
-        vim.opt.colorcolumn = "144"
-        vim.opt.foldlevel = 3
+        vim.opt_local.wrap = false
+        vim.opt_local.linebreak = false
+        vim.opt.colorcolumn = "80"
 
         vim.opt.tabstop = 1
         vim.opt.softtabstop = 1
