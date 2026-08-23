@@ -18,7 +18,7 @@ function fish_prompt
   end
 
   # Line 1: user @ host path (branch)
-  echo -s $user_color $USER $normal "@" $host_color (hostname -s) " " $path_color (prompt_pwd) $git_branch
+  echo -s $user_color $USER $normal "@" $host_color (hostnamectl hostname) " " $path_color (prompt_pwd) $git_branch
 
   # Line 2: └─ $ >
   echo -s $tree_color "└─ " $char_color "\$ > " $normal
