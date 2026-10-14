@@ -27,28 +27,24 @@ return {
   'nvim-orgmode/orgmode',
   dependencies = {
     'pysan3/pathlib.nvim',
-    {
-      "nvim-orgmode/org-bullets.nvim",
-      opts = {
-        concealcursor = false, -- If false then when the cursor is on a line underlying characters are visible
-        symbols = {
-          -- list symbol
-          list = "•",
-          -- headlines can be a list
-          headlines = {
-            { "◉", "@org.headline.level1.org" },
-            { "○", "@org.headline.level2.org" },
-            { "✸", "@org.headline.level3.org" },
-            { "✿", "@org.headline.level4.org" }
-          },
-        },
-        checkboxes = {
-          half = { "", "@org.checkbox.halfchecked" },
-          done = { "✓", "@org.keyword.done" },
-          todo = { "", "@org.keyword.todo" },
-        },
-      }
-    }
+--     {
+--       "nvim-orgmode/org-bullets.nvim",
+--       opts = {
+--         concealcursor = false, -- If false then when the cursor is on a line underlying characters are visible
+--         symbols = {
+--           -- list symbol
+--           list = "•",
+--           -- headlines can be a list
+--           headlines = {
+--             { "◉", "@org.headline.level1.org" },
+--             { "○", "@org.headline.level2.org" },
+--             { "✸", "@org.headline.level3.org" },
+--             { "✿", "@org.headline.level4.org" }
+--           },
+--         },
+--         checkboxes = false,
+--       }
+--     }
   },
   event = 'VeryLazy',
   ft = { 'org' },

@@ -15,7 +15,7 @@ return {
           { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
           { icon = "󱈹 ", key = "o", desc = "Orgmode", action = "<cmd>e ~/Documents/notes/index.org<CR>" },
           { icon = " ", key = "a", desc = "Orgmode Agenda", action = "<cmd>Org agenda<CR>" },
-          { icon = " ", key = "g", desc = "Git", action = "<cmd>Git<CR>" },
+          { icon = " ", key = "g", desc = "Git", action = "<cmd>Neogit<CR>" },
           { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
           { icon = " ", key = "s", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
           { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },

@@ -274,7 +274,7 @@ return {
       return result ~= ""
     end,
 
-    { "<Leader>gg", "<cmd>Git<CR>", desc = "Open Fugitive" },
+    { "<Leader>gg", "<cmd>Neogit<CR>", desc = "Open Neogit" },
     { "<Leader>gl", "<cmd>GitBlameToggle<CR>", desc = "Toggle Git Blame" },
 
     { -- Pickers

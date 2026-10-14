@@ -1,9 +1,12 @@
 local M = {}
 
-function M.in_git_project(project_name)
-  local result = vim.fn.systemlist("git rev-parse --show-toplevel 2>/dev/null")
+function M.in_git_project(project_name, buf_name)
+  local buf_path = vim.api.nvim_buf_get_name(buf_name)
+  local buf_dir = vim.fs.dirname(buf_path)
+
+  local result = vim.trim(vim.system({ "git", "-C", buf_dir, "rev-parse", "--show-toplevel" }, { text = true }):wait().stdout)
   if vim.v.shell_error ~= 0 or #result == 0 then return false end
-  return vim.fn.fnamemodify(result[1], ":t") == project_name
+  return result == project_name
 end
 
 return M

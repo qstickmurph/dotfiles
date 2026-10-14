@@ -9,22 +9,12 @@ return {
 
     -- Testing Adapters
     "nsidorenco/neotest-vstest",
+    "marilari88/neotest-vitest",
     "nvim-neotest/neotest-python",
   },
   config = function()
-    vim.g.neotest_vstest = {
-      discovery_directory_filter = function(search_path)
-        -- ignore hidden directories
-        return search_path:match("/tests")
-      end,
-      broad_recursive_discovery = false,
-    }
-
     require("neotest").setup({
-      adapters = {
-        require("neotest-vstest"),
-        require("neotest-python"),
-      },
+      adapters = {},
       discovery = {
         enabled = true,
         concurrent = 8,
